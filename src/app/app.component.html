@@ -1,0 +1,18 @@
+<div class="my-sidenav-content flex justify-center h-full">
+  <!-- <div class="grid-button-container">
+    <button mat-icon-button color="transparent" aria-label="apps-grid" (click)="showGrid()">
+      <mat-icon>apps</mat-icon>
+    </button>
+  </div> -->
+  <div class="lock-button-container">
+    <button mat-icon-button color="transparent" aria-label="lock-unlock" (click)="lockunlock()">
+      @if (authService.token()) {
+      <mat-icon>lock_open</mat-icon>
+      }
+      @else {
+      <mat-icon>lock</mat-icon>
+      }
+    </button>
+  </div>
+  <router-outlet></router-outlet>
+</div>

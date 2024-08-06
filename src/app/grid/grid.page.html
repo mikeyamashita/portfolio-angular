@@ -1,0 +1,46 @@
+<div class="grid-page">
+  <div class="flex flex-row justify-center pt-[15px]">
+    <mat-form-field class="pt-[55px] w-[100%] sm:pr-10 sm:pl-10 md:pr-24 md:pl-24 lg:pr-36 lg:pl-36"
+      appearance="outline">
+      <input #searchText matInput type="search" placeholder="Search" [(ngModel)]="search" (keydown.enter)="filter()"
+        (ngModelChange)="filter()">
+      <button mat-icon-button matSuffix class="mr-[4px]" (click)="filter()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="xs:absolute sm:absolute md:absolute lg:fixed right-[67px] top-[15px]">
+    <button mat-icon-button (click)="sortGrid()">
+      <mat-icon>sort_by_alpha</mat-icon>
+    </button>
+    @if (authService.token()) {
+    <button mat-icon-button (click)="addProject()">
+      <mat-icon>add</mat-icon>
+    </button>
+    }
+  </div>
+  <div class="sm:grid-cols-3 sm: grid sm: gap-3
+              md:grid-cols-3 md: grid md: gap-3 
+              lg:grid-cols-4 lg: grid lg: gap-3">
+    @for (project of projects; track project.id) {
+    <mat-card class="h-[200px] transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150
+    xs:w-[92vw] 
+    sm:w-[200px] 
+    md:w-[250px] 
+    lg:w-[200px]" [style.view-transition-name]="'project-' + project.name" (click)="cardClicked(project)">
+      <mat-card-content>
+        <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
+          [style.view-transition-name]="'image-' + project.id" />
+        <div class="h-[30px] w-[300px]" [style.view-transition-name]="'content-' + project.id">
+          {{ project.name }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+    } @empty {
+    There are no items.
+    }
+    <div class="p-[5px]"></div>
+  </div>
+
+
+</div>

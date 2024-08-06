@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>{{this.projectService.project().id==undefined?'New Project':'Update Project'}}
+</h2>
+<mat-dialog-content class="mat-typography">
+    <form class="flex flex-col items-start px-5" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="w-[100%]">
+            <mat-label for="name">Name: </mat-label>
+            <input matInput id="name" type="text" formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="w-[100%]">
+            <mat-label for="description">Description: </mat-label>
+            <textarea matInput id="description" type="text" formControlName="description"></textarea>
+        </mat-form-field>
+        <mat-form-field class="w-[100%]">
+            <mat-label for="image">Logo Path: </mat-label>
+            <input matInput id="image" type="text" formControlName="image">
+        </mat-form-field>
+        <mat-form-field class="w-[100%]">
+            <mat-label for="tags">Tags: </mat-label>
+            <mat-chip-grid #tagsGrid aria-label="tags">
+                @for (tag of tagsArr(); track tag) {
+                <mat-chip-row (removed)="remove(tag)" [editable]="true" (edited)="edit(tag, $event)"
+                    [aria-description]="'press enter to edit ' + tag">
+                    {{tag}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip-row>
+                }
+                <input placeholder="New Tag..." [matChipInputFor]="tagsGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)" />
+            </mat-chip-grid>
+        </mat-form-field>
+        <!-- <button mat-button type="submit" [mat-dialog-close]="true" cdkFocusInitial>Ok</button> -->
+    </form>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button type="submit" [mat-dialog-close]="projectForm.value">Ok</button>
+    </mat-dialog-actions>
+</mat-dialog-content>

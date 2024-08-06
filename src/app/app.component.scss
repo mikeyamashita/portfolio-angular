@@ -1,0 +1,26 @@
+mat-drawer {
+    width: 80px;
+}
+
+.grid-button-container {
+    position: fixed;
+    left: 15px;
+    top: 15px;
+    z-index: 100;
+}
+
+.lock-button-container {
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    z-index: 100;
+}
+
+.my-sidenav {
+    padding: 100px 10px 10px 10px;
+    border-inline-end: 1px solid rgb(255, 255, 255);
+}
+
+.my-sidenav-content {
+    background-color: rgb(253, 253, 253);
+}

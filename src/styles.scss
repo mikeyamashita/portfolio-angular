@@ -1,0 +1,48 @@
+@use "@angular/material" as mat;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@include mat.core();
+
+$theme: mat.define-theme();
+
+$light-theme: mat.define-theme(
+    (
+        color: (
+            theme-type: light,
+            primary: mat.$azure-palette
+        )
+    )
+);
+$dark-theme: mat.define-theme(
+    (
+        color: (
+            theme-type: dark,
+            primary: mat.$azure-palette
+        )
+    )
+);
+
+html {
+    // Apply the base theme at the root, so it will be inherited by the whole app.
+    @include mat.all-component-themes($light-theme);
+    //card
+    --mdc-elevated-card-container-color: rgb(255, 255, 255);
+    //form-field outline
+    --mdc-outlined-text-field-outline-color: rgb(198, 197, 197);
+    --mdc-outlined-text-field-focus-outline-width: 1px;
+    //fab button color
+    .mat-mdc-fab {
+        background-color: #353863;
+    }
+}
+html,
+body {
+    height: 100%;
+    background-color: rgb(253, 253, 253);
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

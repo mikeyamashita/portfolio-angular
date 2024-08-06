@@ -1,0 +1,51 @@
+<div class="fixed left-[15px] top-[15px] z-30">
+    <button mat-icon-button class="p-1" (click)="location.back()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</div>
+<div class="flex justify-center h-screen w-screen 
+            lg:py-10 
+            md:py-10 
+            sm:py-10 
+            xs:py-0">
+    <mat-card class="lg:h-full lg:w-[66%] lg:py-3
+                    md:py-3 
+                    sm:h-full sm:w-[66%] sm:py-3 
+                    xs:h-[100vh] xs:w-[100vw] xs:py-3 
+                    2xs:h-[100vh] 2xs:w-[100vw] 2xs:py-3" [style.view-transition-name]="'project-' + projectId">
+        <mat-card-content class="flex justify-center p-5 content-stretch h-full 
+                                 2xs: mt-[45px] xs: mt-[45px] sm: mt-[45px] md: mt-[5px] lg: mt-[5px]">
+            <div class="lg:flex lg:justify-start 
+                        md:flex md:justify-start 
+                        sm:flex sm:justify-start 
+                        xs:flex xs:justify-center
+                        2xs:flex 2xs:justify-center">
+                <img [src]="projectService.project().image"
+                    class="h-[70px] object-contain flex justify-center max-w-[250px] "
+                    [style.view-transition-name]="'image-' + projectId" />
+            </div>
+            <h2 class="h-[30px] w-[300px]" [style.view-transition-name]="'content-' + projectId">{{
+                projectService.project().name }}
+            </h2>
+            <div>{{ projectService.project().description}}</div>
+
+            <mat-chip-grid class="pt-5" aria-label="tags">
+                @for (tag of projectService.project().tags; track tag) {
+                <mat-chip-row [aria-description]="'press enter to edit ' + tag">
+                    {{tag}}
+                </mat-chip-row>
+                }
+            </mat-chip-grid>
+            <div class="right-[15px] bottom-[15px] z-30 absolute">
+                @if (authService.token()) {
+                <button mat-icon-button color="transparent" (click)="updateProject()">
+                    <mat-icon>edit_note</mat-icon>
+                </button>
+                <button mat-icon-button class="p-3" color="transparent" (click)="deleteProject()">
+                    <mat-icon>delete_sweep</mat-icon>
+                </button>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

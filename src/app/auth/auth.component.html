@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Login</h2>
+<form>
+    <div class="flex flex-col p-4" cellspacing="0">
+        <mat-form-field class="example-full-width">
+            <mat-label>Username</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password">
+        </mat-form-field>
+        <button mat-button [mat-dialog-close]="testuser">
+            <mat-label>Login</mat-label>
+            <mat-icon>key</mat-icon>
+        </button>
+    </div>
+</form>
