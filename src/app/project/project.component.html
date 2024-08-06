@@ -29,13 +29,13 @@
             </h2>
             <div>{{ projectService.project().description}}</div>
 
-            <mat-chip-grid class="pt-5" aria-label="tags">
+            <mat-chip-set #chipGrid class="pt-5" aria-label="tags">
                 @for (tag of projectService.project().tags; track tag) {
                 <mat-chip-row [aria-description]="'press enter to edit ' + tag">
                     {{tag}}
                 </mat-chip-row>
                 }
-            </mat-chip-grid>
+            </mat-chip-set>
             <div class="right-[15px] bottom-[15px] z-30 absolute">
                 @if (authService.token()) {
                 <button mat-icon-button color="transparent" (click)="updateProject()">
