@@ -3,4 +3,5 @@ A basic crud app learning and testing the latest features of angular 18, ngrx si
 
 Also setting up and connecting to a .net 8 webapi with identity authentication and authorization and postgres db in a docker container
 
-work in progress...
+
+demo: https://orange-desert-0bb93bb0f.5.azurestaticapps.net/
