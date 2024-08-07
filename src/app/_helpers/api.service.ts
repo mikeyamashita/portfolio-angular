@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { throwError } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { throwError } from 'rxjs';
 })
 export class ApiService {
 
-  public server: string = 'https://localhost:7254'
+  public server = signal('')
   // public server: string = 'https://192.168.50.173:7254'
 
   constructor() { }

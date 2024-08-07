@@ -20,7 +20,7 @@ export class AuthService {
 
   login(user: any): Observable<Object> {
 
-    return this.http.post<User>(this.apiService.server + '/login', user, this.httpOptions)
+    return this.http.post<User>(this.apiService.server() + '/login', user, this.httpOptions)
       .pipe(
       // catchError(this.apiService.handleError)
     );

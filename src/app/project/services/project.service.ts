@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, isDevMode, signal } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Project } from '../models/project'
 import { Router } from '@angular/router';
@@ -12,7 +12,15 @@ export class ProjectService {
   projects: Array<any> = new Array<any>();
   project: any = signal([]);
 
-  constructor(private http: HttpClient, private router: Router, private apiService: ApiService) { }
+  constructor(private http: HttpClient, private router: Router, private apiService: ApiService) {
+
+    if (isDevMode())
+      this.apiService.server.set('https://localhost:7254')
+    else
+      this.apiService.server.set('https://portfolio-webapi-hkh9cjbkepbha3gu.eastus-01.azurewebsites.net')
+    console.log(this.apiService.server())
+
+  }
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,7 +28,7 @@ export class ProjectService {
 
   getProjectById(id: number) {
     if (this.projects.length == 0) {
-      this.http.get<Project>(this.apiService.server + '/api/Projects/' + id, this.httpOptions).subscribe({
+      this.http.get<Project>(this.apiService.server() + '/api/Projects/' + id, this.httpOptions).subscribe({
         next: project => {
           this.project.set(project)
         },
@@ -34,28 +42,28 @@ export class ProjectService {
   }
 
   getProjects(): Observable<Array<any>> {
-    return this.http.get<Array<any>>(this.apiService.server + '/api/Projects', this.httpOptions)
+    return this.http.get<Array<any>>(this.apiService.server() + '/api/Projects', this.httpOptions)
       .pipe(
         catchError(this.apiService.handleError)
       );
   }
 
   postProject(project: any): Observable<Object> {
-    return this.http.post<Project>(this.apiService.server + '/api/Projects', project, this.httpOptions)
+    return this.http.post<Project>(this.apiService.server() + '/api/Projects', project, this.httpOptions)
       .pipe(
         catchError(this.apiService.handleError)
       );
   }
 
   putProject(project: any): Observable<Object> {
-    return this.http.put<Project>(this.apiService.server + '/api/Projects/' + project.id, project, this.httpOptions)
+    return this.http.put<Project>(this.apiService.server() + '/api/Projects/' + project.id, project, this.httpOptions)
       .pipe(
         catchError(this.apiService.handleError)
       );
   }
 
   deleteProject(id: number): Observable<unknown> {
-    return this.http.delete(this.apiService.server + '/api/Projects/' + id, this.httpOptions)
+    return this.http.delete(this.apiService.server() + '/api/Projects/' + id, this.httpOptions)
       .pipe(
         catchError(this.apiService.handleError)
       );
