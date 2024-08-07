@@ -13,13 +13,10 @@ export class ProjectService {
   project: any = signal([]);
 
   constructor(private http: HttpClient, private router: Router, private apiService: ApiService) {
-
     if (isDevMode())
       this.apiService.server.set('https://localhost:7254')
     else
       this.apiService.server.set('https://portfolio-webapi-hkh9cjbkepbha3gu.eastus-01.azurewebsites.net')
-    console.log(this.apiService.server())
-
   }
 
   httpOptions = {
