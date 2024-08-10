@@ -1,5 +1,5 @@
 import { computed, inject } from '@angular/core';
-import { debounceTime, delay, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
+import { delay, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import {
     patchState,
     signalStore,
@@ -10,12 +10,14 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { ProjectService } from '../services/project.service';
+import { Project } from '../models/project';
 
 type ProjectState = {
     id: number,
     project: any,
     projects: Array<any>;
     isLoading: boolean;
+    isLoadingProject: boolean;
 };
 
 const initialState: ProjectState = {
@@ -23,6 +25,7 @@ const initialState: ProjectState = {
     project: [],
     projects: new Array<any>(),
     isLoading: false,
+    isLoadingProject: false
 };
 
 export const ProjectStore = signalStore(
@@ -36,9 +39,27 @@ export const ProjectStore = signalStore(
         setProjectId(projectid: number): void {
             patchState(store, { id: projectid });
         },
-        getProjectById(projectid: number): any {
-            projectService.getProjectById(projectid);
+        filterProjectById(projectid: number): void {
+            let project = store.projects().filter(project => project.id === projectid)[0]
+            patchState(store, { project: project })
         },
+        getProjectById: rxMethod<number>(
+            pipe(
+                tap(() => patchState(store, { isLoadingProject: true })),
+                delay(3000),
+                switchMap((id) => {
+                    return projectService.getProjectById(id).pipe(
+                        tapResponse({
+                            next: (project: any) => {
+                                patchState(store, { project })
+                            },
+                            error: console.error,
+                            finalize: () => patchState(store, { isLoadingProject: false }),
+                        })
+                    );
+                })
+            )
+        ),
         getProjects: rxMethod<void>(
             pipe(
                 distinctUntilChanged(),

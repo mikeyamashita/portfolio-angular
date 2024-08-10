@@ -15,9 +15,9 @@
                     2xs:h-[100vh] 2xs:w-[100vw] 2xs:py-3" [style.view-transition-name]="'project-' + projectId">
         <mat-card-content class="flex justify-center p-5 content-stretch h-full 
                                  2xs: mt-[45px] xs: mt-[45px] sm: mt-[45px] md: mt-[5px] lg: mt-[5px]">
-            @if (store.isLoading()){
+            @if (store.isLoadingProject() ){
             <div class="flex flex-row justify-center ">
-                <mat-spinner class="opacity-50" diameter="25" strokeWidth="5"></mat-spinner>
+                <mat-spinner class="opacity-40" diameter="25" strokeWidth="4"></mat-spinner>
             </div>
             }
             <div class="lg:flex lg:justify-start 

@@ -45,12 +45,7 @@ export class ProjectComponent {
     effect(() => {
       // 👇 The effect will be re-executed whenever the state changes.
       const state = getState(this.store);
-      // console.log('projects component state changed', state);
-
-      // if (this.store.projects().length) {
-      //   console.log(this.store.projects())
-      //   console.log(this.store.isLoading())
-      // }
+      console.log('project state changed', state);
     })
   }
 
@@ -59,17 +54,12 @@ export class ProjectComponent {
     this.route.params.subscribe(params => {
       this.projectId = Number(params["id"])
       this.store.setProjectId(this.projectId)
-      this.projectService.getProjectById(this.projectId)
+      if (this.store.projects().length == 0 && this.store.project())
+        this.store.getProjectById(this.projectId)
+      else
+        this.store.filterProjectById(this.projectId)
     })
   }
-
-  // Methods
-  // findProjectById(id: number) {
-  //   this.project = this.store.projects().find(project => {
-  //     return Number(project.id) === id
-  //   });
-  //   console.log(this.project)
-  // }
 
   // Events  
   updateProject() {

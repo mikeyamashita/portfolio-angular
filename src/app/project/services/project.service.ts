@@ -1,8 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable, isDevMode, signal } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
-import { Project } from '../models/project'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, catchError, tap } from 'rxjs';
+import { tapResponse } from '@ngrx/operators';
+
+import { Project } from '../models/project'
 import { ApiService } from '../../_helpers/api.service';
 
 @Injectable({
@@ -19,20 +21,16 @@ export class ProjectService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  getProjectById(id: number) {
-    // if (this.projects.length == 0) {
-    this.http.get<Project>(this.apiService.server() + '/api/Projects/' + id, this.httpOptions).subscribe({
-      next: project => {
-        this.project.set(project)
-      },
-      error: err => {
-        this.router.navigateByUrl('/grid/asc');
-        console.log(err)
-      }
-    })
-    // } else {
-    //   this.project.set(this.projects.filter(project => project.id === id)[0])
-    // }
+  getProjectById(id: number): Observable<Object> {
+    return this.http.get<Project>(this.apiService.server() + '/api/Projects/' + id, this.httpOptions)
+      .pipe(
+        tapResponse({
+          next: (project: any) => {
+            this.project.set(project)
+          },
+          error: catchError(this.apiService.handleError)
+        })
+      )
   }
 
   getProjects(): Observable<Array<any>> {
