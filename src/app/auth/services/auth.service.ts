@@ -16,7 +16,9 @@ export class AuthService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient, private apiService: ApiService) { }
+  constructor(private http: HttpClient, private apiService: ApiService) {
+    this.apiService.setEnvironment()
+  }
 
   login(user: any): Observable<Object> {
 

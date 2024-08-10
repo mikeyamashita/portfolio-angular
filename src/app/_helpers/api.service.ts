@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, isDevMode, signal } from '@angular/core';
 import { throwError } from 'rxjs';
 
 @Injectable({
@@ -8,9 +8,21 @@ import { throwError } from 'rxjs';
 export class ApiService {
 
   public server = signal('')
-  // public server: string = 'https://192.168.50.173:7254'
+  public isDebugMode = signal(false)
 
   constructor() { }
+
+  public setEnvironment() {
+    if (isDevMode())
+      if (this.isDebugMode())
+        this.server.set('https://localhost:8001')
+      else
+        this.server.set('https://localhost:7254')
+    else {
+      this.server.set('https://portfolio-webapi-hkh9cjbkepbha3gu.eastus-01.azurewebsites.net')
+    }
+    console.log(this.server())
+  }
 
   public handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

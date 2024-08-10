@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { ApiService } from '../../_helpers/api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -6,5 +7,7 @@ import { Injectable, signal } from '@angular/core';
 export class GridService {
   sorttype = signal('asc')
 
-  constructor() { }
+  constructor(private apiService: ApiService) {
+    this.apiService.setEnvironment()
+  }
 }

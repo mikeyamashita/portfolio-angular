@@ -19,6 +19,11 @@
     </button>
     }
   </div>
+  @if (store.isLoading()){
+  <div class="flex flex-row justify-center ">
+    <mat-spinner class="opacity-50" diameter="25" strokeWidth="5"></mat-spinner>
+  </div>
+  }
   <div class="sm:grid-cols-3 sm: grid sm: gap-3
               md:grid-cols-3 md: grid md: gap-3 
               lg:grid-cols-4 lg: grid lg: gap-3">
@@ -37,8 +42,12 @@
       </mat-card-content>
     </mat-card>
     } @empty {
+    @if (!store.isLoading()){
     There are no items.
     }
+    }
+
+
     <div class="p-[5px]"></div>
   </div>
 

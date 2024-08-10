@@ -9,14 +9,10 @@ import { ApiService } from '../../_helpers/api.service';
   providedIn: 'root'
 })
 export class ProjectService {
-  projects: Array<any> = new Array<any>();
   project: any = signal([]);
 
   constructor(private http: HttpClient, private router: Router, private apiService: ApiService) {
-    if (isDevMode())
-      this.apiService.server.set('https://localhost:7254')
-    else
-      this.apiService.server.set('https://portfolio-webapi-hkh9cjbkepbha3gu.eastus-01.azurewebsites.net')
+    this.apiService.setEnvironment()
   }
 
   httpOptions = {
@@ -24,18 +20,19 @@ export class ProjectService {
   };
 
   getProjectById(id: number) {
-    if (this.projects.length == 0) {
-      this.http.get<Project>(this.apiService.server() + '/api/Projects/' + id, this.httpOptions).subscribe({
-        next: project => {
-          this.project.set(project)
-        },
-        error: err => {
-          this.router.navigateByUrl('/grid/asc');
-          console.log(err)
-        }
-      })
-    } else
-      this.project.set(this.projects.filter(project => project.id === id)[0])
+    // if (this.projects.length == 0) {
+    this.http.get<Project>(this.apiService.server() + '/api/Projects/' + id, this.httpOptions).subscribe({
+      next: project => {
+        this.project.set(project)
+      },
+      error: err => {
+        this.router.navigateByUrl('/grid/asc');
+        console.log(err)
+      }
+    })
+    // } else {
+    //   this.project.set(this.projects.filter(project => project.id === id)[0])
+    // }
   }
 
   getProjects(): Observable<Array<any>> {

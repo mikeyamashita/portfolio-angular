@@ -1,5 +1,5 @@
 import { computed, inject } from '@angular/core';
-import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
+import { debounceTime, delay, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import {
     patchState,
     signalStore,
@@ -39,13 +39,11 @@ export const ProjectStore = signalStore(
         getProjectById(projectid: number): any {
             projectService.getProjectById(projectid);
         },
-        // filterProjects(searchFilter: string) {
-        //     patchState(store, (state: any) => ({ projects: state.projects.filter((project: any) => project.description.includes(searchFilter)) }))
-        // },
         getProjects: rxMethod<void>(
             pipe(
                 distinctUntilChanged(),
                 tap(() => patchState(store, { isLoading: true })),
+                delay(3000),
                 switchMap(() => {
                     return projectService.getProjects().pipe(
                         tapResponse({

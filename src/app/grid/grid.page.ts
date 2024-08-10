@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ProjectService } from '../project/services/project.service';
 import { ProjectStore } from '../project/store/project.store';
@@ -28,6 +29,7 @@ import { FormsModule } from '@angular/forms';
     MatToolbarModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     FormsModule
   ],
   // providers: [ProjectStore],
