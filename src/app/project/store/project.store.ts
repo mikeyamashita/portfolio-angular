@@ -46,7 +46,6 @@ export const ProjectStore = signalStore(
         getProjectById: rxMethod<number>(
             pipe(
                 tap(() => patchState(store, { isLoadingProject: true })),
-                delay(3000),
                 switchMap((id) => {
                     return projectService.getProjectById(id).pipe(
                         tapResponse({
@@ -64,7 +63,6 @@ export const ProjectStore = signalStore(
             pipe(
                 distinctUntilChanged(),
                 tap(() => patchState(store, { isLoading: true })),
-                delay(3000),
                 switchMap(() => {
                     return projectService.getProjects().pipe(
                         tapResponse({
