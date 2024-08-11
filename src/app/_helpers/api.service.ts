@@ -8,7 +8,7 @@ import { throwError } from 'rxjs';
 export class ApiService {
 
   public server = signal('')
-  public isDebugMode = signal(false)
+  public isDebugMode = signal(true)
 
   constructor() { }
 
