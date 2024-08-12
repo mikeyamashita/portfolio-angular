@@ -125,7 +125,9 @@ export class GridPage implements OnInit {
   }
 
   filter() {
-    this.projects = this.store.projects().filter(project => { return project.description.includes(this.search) || project.name.includes(this.search) || project.tags.includes(this.search) })
+    this.projects = this.store.projects().filter(project => {
+      return project["description"].includes(this.search) || project["name"].includes(this.search) || project["tags"].includes(this.search)
+    })
   }
 
 }
