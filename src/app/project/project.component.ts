@@ -67,8 +67,10 @@ export class ProjectComponent {
     const dialogRef = this.dialog.open(ProjectFormComponent, { data: this.project, width: '90%' });
 
     dialogRef.afterClosed().subscribe(project => {
-      if (project)
+      if (project) {
         this.store.saveProject(project)
+        this.projectService.project.set(project)
+      }
     });
   }
 

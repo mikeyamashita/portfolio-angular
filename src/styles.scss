@@ -32,6 +32,9 @@ html {
     //form-field outline
     --mdc-outlined-text-field-outline-color: rgb(198, 197, 197);
     --mdc-outlined-text-field-focus-outline-width: 1px;
+    .mdc-text-field--outlined {
+        --mdc-outlined-text-field-container-shape: 28px !important;
+    }
     //fab button color
     .mat-mdc-fab {
         background-color: #353863;

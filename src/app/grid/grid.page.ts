@@ -17,6 +17,7 @@ import { ProjectFormComponent } from '../project/components/project-form/project
 import { AuthService } from '../auth/services/auth.service';
 import { GridService } from './grid.service/grid.service';
 import { FormsModule } from '@angular/forms';
+import { Project } from '../project/models/project';
 
 @Component({
   selector: 'my-grid',
@@ -124,10 +125,7 @@ export class GridPage implements OnInit {
   }
 
   filter() {
-    console.log(this.store.projects())
-    console.log(this.projects)
-
-    this.projects = this.store.projects().filter(project => { return project.description.includes(this.search) })
+    this.projects = this.store.projects().filter(project => { return project.description.includes(this.search) || project.name.includes(this.search) || project.tags.includes(this.search) })
   }
-}
 
+}

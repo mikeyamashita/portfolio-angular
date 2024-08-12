@@ -25,6 +25,7 @@ export class AuthComponent {
   testuser: User = new User();
 
   constructor(private authService: AuthService) {
+    //hardecoded test auth for testing
     this.testuser.Email = "Mike@mikey.com";
     this.testuser.Password = "Mike1!";
   }
