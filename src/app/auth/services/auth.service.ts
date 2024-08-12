@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { ApiService } from '../../_helpers/api.service';
+import { ApiService } from '../../api.service';
 import { User } from '../model/user';
 
 @Injectable({

@@ -5,7 +5,7 @@ import { Observable, catchError, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 
 import { Project } from '../models/project'
-import { ApiService } from '../../_helpers/api.service';
+import { ApiService } from '../../api.service';
 
 @Injectable({
   providedIn: 'root'

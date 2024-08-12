@@ -14,6 +14,7 @@ import { ProjectStore } from './store/project.store';
 import { ProjectFormComponent } from './components/project-form/project-form.component';
 import { AuthService } from '../auth/services/auth.service';
 import { MatChipsModule } from '@angular/material/chips';
+import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'my-project',
@@ -72,8 +73,15 @@ export class ProjectComponent {
   }
 
   deleteProject() {
-    this.store.deleteProject(this.projectId)
-    this.router.navigateByUrl('/grid/asc');
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm)
+        this.store.deleteProject(this.projectId)
+      this.router.navigateByUrl('/grid/asc');
+    });
+
+
   }
 
 }
