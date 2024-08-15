@@ -24,6 +24,7 @@
     "@ngrx/operators": "^18.0.0-rc.0",
     "@ngrx/signals": "^18.0.0-rc.0",
     "es-module-shims": "^1.5.12",
+    "ngx-editor": "^17.5.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

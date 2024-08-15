@@ -15,11 +15,12 @@ export class ApiService {
   public setEnvironment() {
     if (isDevMode())
       if (this.isDebugMode())
-        this.server.set('https://localhost:8001')
+        this.server.set('https://localhost:8001') //statging docker
       else
-        this.server.set('https://localhost:7254')
+        this.server.set('https://localhost:7254') //dev local
+    // this.server.set('http://192.168.50.173:7254') //dev external
     else {
-      this.server.set('https://portfolio-webapi-hkh9cjbkepbha3gu.eastus-01.azurewebsites.net')
+      this.server.set('https://portfolio-webapi-hkh9cjbkepbha3gu.eastus-01.azurewebsites.net') //prod azure
     }
     console.log(this.server())
   }

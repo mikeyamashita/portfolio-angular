@@ -25,14 +25,20 @@
                         sm:flex sm:justify-start 
                         xs:flex xs:justify-center
                         2xs:flex 2xs:justify-center">
-                <img [src]="projectService.project().image"
-                    class="h-[70px] object-contain flex justify-center max-w-[250px] "
-                    [style.view-transition-name]="'image-' + projectId" />
+                <a [href]="projectService.project().imageUrl" target="_blank">
+                    <img [src]="projectService.project().image"
+                        class="h-[70px] object-contain flex justify-center max-w-[250px] "
+                        [style.view-transition-name]="'image-' + projectId" />
+                </a>
             </div>
             <h2 class="h-[30px] w-[300px]" [style.view-transition-name]="'content-' + projectId">{{
                 projectService.project().name }}
             </h2>
             <div>{{ projectService.project().description}}</div>
+
+            <!-- @for (link of projectService.project().links; track link) { -->
+            <button mat-button>{{projectService.project().links}}</button>
+            <!-- } -->
 
             <mat-chip-set #chipGrid class="pt-5" aria-label="tags">
                 @for (tag of projectService.project().tags; track tag) {

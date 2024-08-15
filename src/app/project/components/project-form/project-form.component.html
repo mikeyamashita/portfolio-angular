@@ -10,10 +10,34 @@
             <mat-label for="description">Description: </mat-label>
             <textarea matInput id="description" type="text" formControlName="description"></textarea>
         </mat-form-field>
+
+        <!-- <mat-form-field class="w-[100%]">
+            <textarea matInput id="description" type="text" formControlName="description"></textarea>
+            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+            <ngx-editor [editor]="editor" formControlName="description" [placeholder]="'Type here...'"></ngx-editor>
+        </mat-form-field> -->
+
         <mat-form-field class="w-[100%]">
             <mat-label for="image">Logo Path: </mat-label>
             <input matInput id="image" type="text" formControlName="image">
         </mat-form-field>
+        <mat-form-field class="w-[100%]">
+            <mat-label for="imageUrl">Logo URL: </mat-label>
+            <input matInput id="imageUrl" type="text" formControlName="imageUrl">
+        </mat-form-field>
+        <!-- <mat-form-field class="w-[100%]">
+            <mat-label for="links">Links: </mat-label>
+            <input matInput id="links" type="text" formControlName="links">
+        </mat-form-field> -->
+
+
+        <!-- <mat-form-field class="w-[100%]"> -->
+        <!-- @for (link of linksArr(); track link) {
+        <input matInput type="text" [(ngModel)]="link.name">
+        <input matInput type="text" [(ngModel)]="link.url">
+        } -->
+        <!-- </mat-form-field> -->
+
         <mat-form-field class="w-[100%]">
             <mat-label for="tags">Tags: </mat-label>
             <mat-chip-grid #tagsGrid aria-label="tags">
