@@ -40,8 +40,8 @@ import { Project } from '../project/models/project';
 })
 export class GridPage implements OnInit {
 
-  @ViewChild('searchText', { static: true })
-  searchText!: MatInput;
+  // @ViewChild('searchText', { static: true })
+  // searchText!: MatInput;
   search!: string;
 
   readonly store = inject(ProjectStore);

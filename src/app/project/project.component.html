@@ -27,7 +27,7 @@
                         2xs:flex 2xs:justify-center">
                 <a [href]="projectService.project().imageUrl" target="_blank">
                     <img [src]="projectService.project().image"
-                        class="h-[70px] object-contain flex justify-center max-w-[250px] "
+                        class="h-[70px] object-contain flex justify-center max-w-[250px]"
                         [style.view-transition-name]="'image-' + projectId" />
                 </a>
             </div>
@@ -36,9 +36,12 @@
             </h2>
             <div>{{ projectService.project().description}}</div>
 
-            <!-- @for (link of projectService.project().links; track link) { -->
-            <button mat-button>{{projectService.project().links}}</button>
-            <!-- } -->
+            @for (link of projectService.project().links; track link) {
+            <div>
+                <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
+                    [href]="link.url" target="_blank">{{link.name}}</a>
+            </div>
+            }
 
             <mat-chip-set #chipGrid class="pt-5" aria-label="tags">
                 @for (tag of projectService.project().tags; track tag) {
@@ -47,6 +50,13 @@
                 </mat-chip-row>
                 }
             </mat-chip-set>
+            <div class="sm:grid-cols-1 sm: grid sm: gap-8
+                        md:grid-cols-3 md: grid md: gap-8 
+                        lg:grid-cols-3 lg: grid lg: gap-8">
+                @for (photoUrl of projectService.project().gallery; track photoUrl){
+                <img [src]="photoUrl" class="object-fit" />
+                }
+            </div>
             <div class="right-[15px] bottom-[15px] z-30 absolute">
                 @if (authService.token()) {
                 <button mat-icon-button color="transparent" (click)="updateProject()">

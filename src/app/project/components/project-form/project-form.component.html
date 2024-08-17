@@ -1,7 +1,15 @@
-<h2 mat-dialog-title>{{this.projectService.project().id==undefined?'New Project':'Update Project'}}
-</h2>
+<div class="flex flex-row justify-between">
+    <h2 mat-dialog-title>{{this.projectService.project().id==undefined?'New Project':'Update Project'}}
+    </h2>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button type="submit" [mat-dialog-close]="projectForm.value">Ok</button>
+    </mat-dialog-actions>
+
+</div>
 <mat-dialog-content class="mat-typography">
     <form class="flex flex-col items-start px-5" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        <label>Project Details</label>
         <mat-form-field class="w-[100%]">
             <mat-label for="name">Name: </mat-label>
             <input matInput id="name" type="text" formControlName="name">
@@ -11,12 +19,11 @@
             <textarea matInput id="description" type="text" formControlName="description"></textarea>
         </mat-form-field>
 
-        <!-- <mat-form-field class="w-[100%]">
-            <textarea matInput id="description" type="text" formControlName="description"></textarea>
-            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
-            <ngx-editor [editor]="editor" formControlName="description" [placeholder]="'Type here...'"></ngx-editor>
-        </mat-form-field> -->
-
+        <label>Logo</label>
+        <a [href]="projectService.project().imageUrl" target="_blank">
+            <img [src]="projectService.project().image"
+                class="h-[70px] object-contain flex justify-center max-w-[250px]" />
+        </a>
         <mat-form-field class="w-[100%]">
             <mat-label for="image">Logo Path: </mat-label>
             <input matInput id="image" type="text" formControlName="image">
@@ -25,19 +32,8 @@
             <mat-label for="imageUrl">Logo URL: </mat-label>
             <input matInput id="imageUrl" type="text" formControlName="imageUrl">
         </mat-form-field>
-        <!-- <mat-form-field class="w-[100%]">
-            <mat-label for="links">Links: </mat-label>
-            <input matInput id="links" type="text" formControlName="links">
-        </mat-form-field> -->
 
-
-        <!-- <mat-form-field class="w-[100%]"> -->
-        <!-- @for (link of linksArr(); track link) {
-        <input matInput type="text" [(ngModel)]="link.name">
-        <input matInput type="text" [(ngModel)]="link.url">
-        } -->
-        <!-- </mat-form-field> -->
-
+        <label>Tags</label>
         <mat-form-field class="w-[100%]">
             <mat-label for="tags">Tags: </mat-label>
             <mat-chip-grid #tagsGrid aria-label="tags">
@@ -55,10 +51,62 @@
                     (matChipInputTokenEnd)="add($event)" />
             </mat-chip-grid>
         </mat-form-field>
-        <!-- <button mat-button type="submit" [mat-dialog-close]="true" cdkFocusInitial>Ok</button> -->
+
+        <form class="flex flex-row pb-5 w-[100%]" [formGroup]="linksForm">
+            <div class="w-[100%]">
+                <label>Links</label>
+                @for (link of linksArr(); track link.name) {
+                <div>
+                    <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
+                        [href]="link.url" target="_blank">{{link.name}}</a>
+                    <button mat-icon-button class="h-[30px] w-[30px] relative top-[7.5px]" (click)="removeLink(link)">
+                        <mat-icon class="close-icon text-base">close</mat-icon>
+                    </button>
+                </div>
+                }
+                <div class="flex flex-row pb-5">
+                    <mat-form-field class="w-[100%] pr-5">
+                        <mat-label for="image">Label: </mat-label>
+                        <input matInput type="text" formControlName="name">
+                    </mat-form-field>
+                    <mat-form-field class="w-[100%] pr-5">
+                        <mat-label for="image">Url: </mat-label>
+                        <input matInput type="text" formControlName="url">
+                    </mat-form-field>
+                    <button mat-icon-button color="transparent" (click)="addLink()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <mat-form-field class=" w-[100%]">
+            <mat-label for="description">Gallery: </mat-label>
+            <textarea matInput id="gallery" type="text" formControlName="gallery"></textarea>
+        </mat-form-field>
+        <label>Gallery</label>
+        <div class="sm:grid-cols-1 sm: grid sm: gap-8
+                    md:grid-cols-3 md: grid md: gap-8 
+                    lg:grid-cols-3 lg: grid lg: gap-8">
+            @for (photoUrl of projectForm.value.gallery; track photoUrl){
+            <div class="h-[150px] w-[150px]">
+                <img [src]="photoUrl" class="h-[150px] w-[150px] object-contain border-1" />
+                <button mat-icon-button class="h-[30px] w-[30px] relative top-[-162px] right-[-135px]"
+                    (click)="removeImage(photoUrl)">
+                    <mat-icon class="close-icon text-base">close</mat-icon>
+                </button>
+            </div>
+            }
+        </div>
+
+        <form class="flex flex-row pb-5 w-[100%]" [formGroup]="galleryForm">
+            <mat-form-field class="w-[100%] pr-5">
+                <mat-label for="image">Image Source: </mat-label>
+                <input matInput type="text" formControlName="imgsrc">
+            </mat-form-field>
+            <button mat-icon-button color="transparent" (click)="addImage()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </form>
     </form>
-    <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button type="submit" [mat-dialog-close]="projectForm.value">Ok</button>
-    </mat-dialog-actions>
 </mat-dialog-content>
