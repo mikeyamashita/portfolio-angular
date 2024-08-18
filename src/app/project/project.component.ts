@@ -76,16 +76,24 @@ export class ProjectComponent {
     dialogRef.afterClosed().subscribe(project => {
       if (project) {
 
-        this.linkService.linksToRemove?.forEach(linkId => {
-          this.linkStore.deleteLink(linkId)
+        //find differences between links array from the form and store
+        const linksToAdd = project.links.filter((link: Link) => !this.store.project().links.includes(link));
+        const linksToRemove = this.store.project().links.filter((link: Link) => !project.links.includes(link));
+
+        console.log('project from form:', project.links)
+        console.log('project:', this.store.project().links)
+        console.log('linksToAdd:', linksToAdd)
+        console.log('linksToRemove:', linksToRemove)
+
+        linksToAdd.forEach((link: Link) => {
+          if (link.id)
+            if (link.id < 0)
+              this.linkStore.addLink(link)
         })
 
-        project.links?.forEach((link: Link) => {
-          console.log(link)
+        linksToRemove.forEach((link: Link) => {
           if (link.id)
-            if (link.id < 0) {
-              this.linkStore.addLink(link)
-            }
+            this.linkStore.deleteLink(link.id)
         })
 
         this.store.saveProject(project)
@@ -102,8 +110,5 @@ export class ProjectComponent {
         this.store.deleteProject(this.projectId)
       this.router.navigateByUrl('/grid/asc');
     });
-
-
   }
-
 }

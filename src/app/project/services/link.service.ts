@@ -10,6 +10,7 @@ import { ApiService } from '../../api.service';
 })
 export class LinkService {
   linksToRemove: Array<number> = new Array<number>()
+  linksToAdd: Array<Link> = new Array<Link>()
 
   constructor(private http: HttpClient, private router: Router, private apiService: ApiService) {
     this.apiService.setEnvironment()

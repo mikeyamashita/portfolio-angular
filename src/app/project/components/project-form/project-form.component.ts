@@ -69,7 +69,7 @@ export class ProjectFormComponent {
     this.projectForm.controls.imageUrl.setValue(this.projectService.project().imageUrl);
 
     this.projectService.project().links ? this.projectForm.controls.links.setValue(this.projectService.project().links) : this.projectForm.controls.links.setValue(new Array<Link>())
-    this.linksArr.set(this.projectService.project().links);
+    this.linksArr.set([...this.projectService.project().links]);
     this.projectService.project().tags ? this.projectForm.controls.tags.setValue(this.projectService.project().tags) : this.projectForm.controls.tags.setValue([])
     this.tagsArr.set(this.projectService.project().tags);
     this.projectService.project().gallery ? this.projectForm.controls.gallery.setValue(this.projectService.project().gallery) : this.projectForm.controls.gallery.setValue([])
@@ -144,20 +144,24 @@ export class ProjectFormComponent {
     console.log(this.linksForm.value)
     if (this.linksForm.value.name || this.linksForm.value.url) {
       let newLink = new Link();
-      newLink.id = this.addCount--
-      newLink.name = this.linksForm.value?.name?.toString()
-      newLink.url = this.linksForm.value?.url?.toString()
-      newLink.projectId = Number(this.projectForm.value?.id)
-      this.projectForm.value.links?.push(newLink)
+      newLink.id = this.addCount--;
+      newLink.name = this.linksForm.value?.name?.toString();
+      newLink.url = this.linksForm.value?.url?.toString();
+      newLink.projectId = Number(this.projectForm.value?.id);
+      // this.linkService.linksToAdd.push(newLink)
+      this.linksArr().push(newLink);
+      this.projectForm.value.links = this.linksArr();
     }
   }
 
   removeLink(rmlink: Link) {
     if (rmlink.id) {
-      this.linkService.linksToRemove.push(rmlink.id)
+      // this.linkService.linksToRemove.push(rmlink.id)
+      // if (this.linkService.linksToAdd.includes(rmlink))
+
       this.linksArr.set(this.linksArr().filter(link => link != rmlink))
-      this.projectForm.value.links = this.linksArr().filter(link => link != rmlink)
-      console.log(this.projectForm.value)
+      // this.projectForm.value.links = this.linksArr().filter(link => link != rmlink)
+      this.projectForm.value.links = this.linksArr();
     }
   }
 }
