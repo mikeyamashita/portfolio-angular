@@ -1,12 +1,12 @@
 export class Project {
-    Id: number | undefined;
-    Name: string | undefined;
-    Description: string | undefined;
-    Image: string | undefined;
+    id: number | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    image: string | undefined;
     imageUrl: string | undefined;
-    Tags: Array<string> | undefined;
-    Links: string | undefined;
-    Gallery: Array<string> | undefined;
-    Url: number | undefined;
-    Type: number | undefined;
+    tags: Array<string> | undefined;
+    links: string | undefined;
+    gallery: Array<string> | undefined;
+    url: number | undefined;
+    type: number | undefined;
 }

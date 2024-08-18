@@ -11,11 +11,13 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../models/project';
+import { Link } from '../models/link';
 
 type ProjectState = {
     id: number,
     project: any,
     projects: Array<any>;
+    links: Array<Link>
     isLoading: boolean;
     isLoadingProject: boolean;
 };
@@ -24,6 +26,7 @@ const initialState: ProjectState = {
     id: 0,
     project: [],
     projects: new Array<any>(),
+    links: new Array<Link>(),
     isLoading: false,
     isLoadingProject: false
 };
@@ -59,6 +62,22 @@ export const ProjectStore = signalStore(
                 })
             )
         ),
+        getLinksByProjectId: rxMethod<number>(
+            pipe(
+                tap(() => patchState(store, { isLoadingProject: true })),
+                switchMap((id) => {
+                    return projectService.getLinksByProjectId(id).pipe(
+                        tapResponse({
+                            next: (links: any) => {
+                                patchState(store, { links })
+                            },
+                            error: console.error,
+                            finalize: () => patchState(store, { isLoadingProject: false }),
+                        })
+                    );
+                })
+            )
+        ),
         getProjects: rxMethod<void>(
             pipe(
                 distinctUntilChanged(),
@@ -86,8 +105,8 @@ export const ProjectStore = signalStore(
                                 patchState(store, { project: project })
                                 // replace updated project
                                 patchState(store, (state: any) => ({ project: state.projects.splice(state.projects.findIndex((item: any) => project.id == item.id), 1, project) }))
-
-                                projectService.getProjectById(project.id)
+                                if (project.id)
+                                    projectService.getProjectById(project.id)
                             },
                             error: console.error,
                             finalize: () => patchState(store, { isLoading: false }),

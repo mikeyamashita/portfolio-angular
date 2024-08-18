@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, isDevMode, signal } from '@angular/core';
 import { throwError } from 'rxjs';
 
@@ -24,6 +24,10 @@ export class ApiService {
     }
     console.log(this.server())
   }
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   public handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

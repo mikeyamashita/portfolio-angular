@@ -36,7 +36,7 @@
             </h2>
             <div>{{ projectService.project().description}}</div>
 
-            @for (link of projectService.project().links; track link) {
+            @for (link of projectService.project().links; track link.id) {
             <div>
                 <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
                     [href]="link.url" target="_blank">{{link.name}}</a>

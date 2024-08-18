@@ -15,6 +15,9 @@ import { ProjectFormComponent } from './components/project-form/project-form.com
 import { AuthService } from '../auth/services/auth.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
+import { LinkStore } from './store/link.store';
+import { Link } from './models/link';
+import { LinkService } from './services/link.service';
 
 @Component({
   selector: 'my-project',
@@ -32,9 +35,10 @@ import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dia
 export class ProjectComponent {
 
   readonly store = inject(ProjectStore);
+  readonly linkStore = inject(LinkStore);
   readonly dialog = inject(MatDialog);
 
-  projectId: number = 0;
+  projectId: number = -1;
   project: any;
 
   constructor(
@@ -42,6 +46,7 @@ export class ProjectComponent {
     private router: Router,
     public location: Location,
     public projectService: ProjectService,
+    private linkService: LinkService,
     public authService: AuthService) {
     effect(() => {
       // 👇 The effect will be re-executed whenever the state changes.
@@ -54,7 +59,8 @@ export class ProjectComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.projectId = Number(params["id"])
-      this.store.setProjectId(this.projectId)
+
+      this.linkStore.getLinks()
 
       if (this.store.projects().length == 0 || this.store.project())
         this.store.getProjectById(this.projectId)
@@ -69,6 +75,19 @@ export class ProjectComponent {
 
     dialogRef.afterClosed().subscribe(project => {
       if (project) {
+
+        this.linkService.linksToRemove?.forEach(linkId => {
+          this.linkStore.deleteLink(linkId)
+        })
+
+        project.links?.forEach((link: Link) => {
+          console.log(link)
+          if (link.id)
+            if (link.id < 0) {
+              this.linkStore.addLink(link)
+            }
+        })
+
         this.store.saveProject(project)
         this.projectService.project.set(project)
       }

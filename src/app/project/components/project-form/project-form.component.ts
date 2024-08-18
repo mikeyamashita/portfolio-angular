@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 
 import { ProjectService } from '../../services/project.service';
+import { LinkService } from '../../services/link.service';
 import { LinkFormComponent } from "../link-form/link-form.component";
 import { Link } from '../../models/link';
 
@@ -55,8 +56,10 @@ export class ProjectFormComponent {
   readonly galleryArr = signal<Array<string>>([])
   readonly linksArr = signal<Array<Link>>([])
 
+  addCount: number = -1;
+
   constructor(private formBuilder: FormBuilder,
-    public projectService: ProjectService) {
+    public projectService: ProjectService, public linkService: LinkService) {
 
     //populate form
     this.projectService.project().id ? this.projectForm.controls.id.setValue(this.projectService.project().id) : undefined;
@@ -141,7 +144,7 @@ export class ProjectFormComponent {
     console.log(this.linksForm.value)
     if (this.linksForm.value.name || this.linksForm.value.url) {
       let newLink = new Link();
-      newLink.id = 0
+      newLink.id = this.addCount--
       newLink.name = this.linksForm.value?.name?.toString()
       newLink.url = this.linksForm.value?.url?.toString()
       newLink.projectId = Number(this.projectForm.value?.id)
@@ -150,9 +153,11 @@ export class ProjectFormComponent {
   }
 
   removeLink(rmlink: Link) {
-    // this.projectForm.value.links = this.projectForm.value.links?.filter(link => link != rmlink)
-    this.linksArr.set(this.linksArr().filter(link => link != rmlink))
-    this.projectForm.value.links = this.linksArr().filter(link => link != rmlink)
-    console.log(this.projectForm.value)
+    if (rmlink.id) {
+      this.linkService.linksToRemove.push(rmlink.id)
+      this.linksArr.set(this.linksArr().filter(link => link != rmlink))
+      this.projectForm.value.links = this.linksArr().filter(link => link != rmlink)
+      console.log(this.projectForm.value)
+    }
   }
 }
