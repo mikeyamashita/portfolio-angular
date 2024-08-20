@@ -10,7 +10,6 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { ProjectService } from '../services/project.service';
-import { Project } from '../models/project';
 import { Link } from '../models/link';
 
 type ProjectState = {
@@ -68,7 +67,7 @@ export const ProjectStore = signalStore(
                 switchMap((id) => {
                     return projectService.getLinksByProjectId(id).pipe(
                         tapResponse({
-                            next: (links: any) => {
+                            next: (links: Array<any>) => {
                                 patchState(store, { links })
                             },
                             error: console.error,

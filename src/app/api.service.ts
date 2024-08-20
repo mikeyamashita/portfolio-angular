@@ -42,4 +42,19 @@ export class ApiService {
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
+
+  // private handleError(err: HttpErrorResponse) {
+
+  //   let errorMessage = '';
+  //   if (err.error instanceof ErrorEvent) {
+  //     errorMessage = `An error occurred: ${err.error.message}`;
+  //   } else {
+
+  //     errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+  //   }
+  //   console.error(errorMessage);
+  //   // return _throw (errorMessage);
+
+  //   return throwError(() => new Error('Something bad happened; please try again later.'));
+  // }
 }

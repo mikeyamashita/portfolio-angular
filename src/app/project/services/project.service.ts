@@ -6,6 +6,7 @@ import { tapResponse } from '@ngrx/operators';
 
 import { Project } from '../models/project'
 import { ApiService } from '../../api.service';
+import Link from 'ngx-editor/lib/commands/Link';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +37,8 @@ export class ProjectService {
       );
   }
 
-  getLinksByProjectId(id: number): Observable<Array<any>> {
-    return this.http.get<Array<any>>(this.apiService.server() + '/api/Project/' + id + '/Links', this.apiService.httpOptions)
+  getLinksByProjectId(id: number): Observable<Array<Link>> {
+    return this.http.get<Array<Link>>(this.apiService.server() + '/api/Project/' + id + '/Links', this.apiService.httpOptions)
       .pipe(
         catchError(this.apiService.handleError)
       );
