@@ -5,6 +5,7 @@ import { Observable, catchError } from 'rxjs';
 
 import { Link } from '../models/link'
 import { ApiService } from '../../api.service';
+import { tapResponse } from '@ngrx/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -33,21 +34,36 @@ export class LinkService {
   postLink(link: Link): Observable<Link> {
     return this.http.post<Link>(this.apiService.server() + '/api/Link', link, this.apiService.httpOptions)
       .pipe(
-        catchError(this.apiService.handleError)
+        tapResponse({
+          next: () => { },
+          error: catchError(this.apiService.handleError),
+          finalize: () => {
+          }
+        }),
       );
   }
 
   putLink(link: Link): Observable<Link> {
     return this.http.put<Link>(this.apiService.server() + '/api/Link/' + link.id, link, this.apiService.httpOptions)
       .pipe(
-        catchError(this.apiService.handleError)
+        tapResponse({
+          next: () => { },
+          error: catchError(this.apiService.handleError),
+          finalize: () => {
+          }
+        }),
       );
   }
 
   deleteLink(id: number): Observable<unknown> {
     return this.http.delete(this.apiService.server() + '/api/Link/' + id, this.apiService.httpOptions)
       .pipe(
-        catchError(this.apiService.handleError)
+        tapResponse({
+          next: () => { },
+          error: catchError(this.apiService.handleError),
+          finalize: () => {
+          }
+        }),
       );
   }
 

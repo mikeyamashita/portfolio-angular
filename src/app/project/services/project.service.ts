@@ -19,6 +19,7 @@ export class ProjectService {
   }
 
   getProjectById(id: number): Observable<Object> {
+    console.log(id)
     return this.http.get<Project>(this.apiService.server() + '/api/Project/' + id, this.apiService.httpOptions)
       .pipe(
         tapResponse({
@@ -47,14 +48,26 @@ export class ProjectService {
   postProject(project: any): Observable<Object> {
     return this.http.post<Project>(this.apiService.server() + '/api/Project', project, this.apiService.httpOptions)
       .pipe(
-        catchError(this.apiService.handleError)
+        tapResponse({
+          next: () => { },
+          error: catchError(this.apiService.handleError),
+          finalize: () => {
+            this.router.navigateByUrl('/project/' + project.id);
+          }
+        }),
       );
   }
 
   putProject(project: any): Observable<Object> {
     return this.http.put<Project>(this.apiService.server() + '/api/Project/' + project.id, project, this.apiService.httpOptions)
       .pipe(
-        catchError(this.apiService.handleError)
+        tapResponse({
+          next: () => { },
+          error: catchError(this.apiService.handleError),
+          finalize: () => {
+            this.router.navigateByUrl('/project/' + project.id);
+          }
+        }),
       );
   }
 

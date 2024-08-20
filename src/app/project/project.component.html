@@ -3,6 +3,15 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
 </div>
+@if (authService.token()) {
+<div class="xs:absolute sm:absolute md:absolute lg:fixed right-[67px] top-[15px] z-30">
+    <button mat-icon-button (click)="updateProject()">
+        <mat-icon>edit-note</mat-icon>
+    </button>
+
+</div>
+}
+
 <div class="flex justify-center w-screen h-full
             lg:py-10 
             md:py-10 
@@ -13,72 +22,64 @@
                     sm:min-h-full sm:w-[66%] sm:py-3 
                     xs:min-h-screen xs:w-[100vw] xs:py-3 
                     2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3" [style.view-transition-name]="'project-' + projectId">
-        <mat-card-content class="flex justify-center p-5 content-stretch h-full 
+        <mat-card-content class="flex justify-center p-5 content-stretch
                                  2xs: mt-[45px] xs: mt-[45px] sm: mt-[45px] md: mt-[5px] lg: mt-[5px]">
-            @if (store.isLoadingProject() ){
-            <div class="flex flex-row justify-center ">
-                <mat-spinner class="opacity-40" diameter="25" strokeWidth="4"></mat-spinner>
-            </div>
-            }
-            <div class="lg:flex lg:justify-start 
+            <div class=" px-5">
+                @if (store.isLoadingProject() ){
+                <div class="lg:absolute lg:right-10 top-10
+                        md:absolute md:right-10 top-10
+                        sm:absolute sm:right-10 top-10
+                        xs:flex xs:justify-center
+                        2xs:flex 2xs:justify-center">
+                    <mat-spinner class="opacity-40" diameter="25" strokeWidth="4"></mat-spinner>
+                </div>
+                }
+                <div class="lg:flex lg:justify-start 
                         md:flex md:justify-start 
                         sm:flex sm:justify-start 
                         xs:flex xs:justify-center
                         2xs:flex 2xs:justify-center">
-                <a [href]="projectService.project().imageUrl" target="_blank">
-                    <img [src]="projectService.project().image"
-                        class="h-[70px] object-contain flex justify-center max-w-[250px]"
-                        [style.view-transition-name]="'image-' + projectId" />
-                </a>
-            </div>
-            <h2 class="h-[30px] w-[300px]" [style.view-transition-name]="'content-' + projectId"
-                [style.view-transition-name]="'name-' + projectId">{{
-                projectService.project().name }}
-            </h2>
-            <div [style.view-transition-name]="'description-' + projectId">{{ projectService.project().description}}
-            </div>
-
-            @for (link of projectService.project().links; track link.id) {
-            <div>
-                <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
-                    [href]="link.url" target="_blank"
-                    [style.view-transition-name]="'link'+link.id+'-' + projectId">{{link.name}}</a>
-                <div class="h-[30px] w-[30px] relative top-[7.5px]"
-                    [style.view-transition-name]="'link-delete'+link.id+'-' + projectId">
+                    <a [href]="projectService.project().imageUrl" target="_blank">
+                        <img [src]="projectService.project().image" class="h-[70px] object-contain flex justify-center max-w-[250px]
+                        lg:mt-0 mb-0
+                        md:mt-0 mb-0
+                        sm:mt-0 mb-0
+                        xs:mt-8 mb-5
+                        2xs:mt-8 mb-5" [style.view-transition-name]="'image-' + projectId" />
+                    </a>
                 </div>
-            </div>
-            }
+                <h2 class="h-[30px] w-[300px]" [style.view-transition-name]="'content-' + projectId"
+                    [style.view-transition-name]="'name-' + projectId">{{
+                    projectService.project().name }}
+                </h2>
+                <div [style.view-transition-name]="'description-' + projectId">{{ projectService.project().description}}
+                </div>
 
-            <mat-chip-set #chipGrid class="pt-5" aria-label="tags">
-                @for (tag of projectService.project().tags; track tag) {
-                <mat-chip-row [aria-description]="'press enter to edit ' + tag">
-                    {{tag}}
-                </mat-chip-row>
+                @for (link of projectService.project().links; track link.id) {
+                <div>
+                    <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
+                        [href]="link.url" target="_blank"
+                        [style.view-transition-name]="'link'+link.id+'-' + projectId">{{link.name}}</a>
+                    <div class="h-[30px] w-[30px] relative top-[7.5px]"
+                        [style.view-transition-name]="'link-delete'+link.id+'-' + projectId">
+                    </div>
+                </div>
                 }
-            </mat-chip-set>
-            <div class="sm:grid-cols-1 sm: grid sm: gap-8
+
+                <mat-chip-set #chipGrid class="pt-5" aria-label="tags">
+                    @for (tag of projectService.project().tags; track tag) {
+                    <mat-chip-row [aria-description]="'press enter to edit ' + tag">
+                        {{tag}}
+                    </mat-chip-row>
+                    }
+                </mat-chip-set>
+                <div class="sm:grid-cols-1 sm: grid sm: gap-8
                         md:grid-cols-3 md: grid md: gap-8 
                         lg:grid-cols-3 lg: grid lg: gap-8">
-                @for (photoUrl of projectService.project().gallery; track photoUrl){
-                <img [src]="photoUrl" class="object-fit" />
-                }
-            </div>
-            <div class="right-[15px] bottom-[15px] z-30 absolute">
-                @if (authService.token()) {
-                <button mat-button color="transparent" (click)="navProject()"
-                    [style.view-transition-name]="'button1-' + projectId">
-                    <mat-icon>edit_note</mat-icon>
-                    <mat-label>Update</mat-label>
-                </button>
-                <!-- <button mat-icon-button color="transparent" (click)="updateProject()">
-                    <mat-icon>edit_note</mat-icon>
-                </button> -->
-                <button mat-button class="p-3" color="transparent" (click)="deleteProject()"
-                    [style.view-transition-name]="'button2-' + projectId">
-                    <mat-icon>delete_sweep</mat-icon>
-                    <mat-label>Delete</mat-label>
-                </button>
-                }
+                    @for (photoUrl of projectService.project().gallery; track photoUrl){
+                    <img [src]="photoUrl" class="object-fit" />
+                    }
+                </div>
             </div>
         </mat-card-content>
     </mat-card>

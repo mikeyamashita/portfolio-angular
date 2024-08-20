@@ -1,7 +1,7 @@
 <div class="flex flex-row justify-between">
     <h2 mat-dialog-title>{{this.projectService.project().id==undefined?'New Project':'Update Project'}}
     </h2>
-    <mat-dialog-actions align="end">
+    <mat-dialog-actions>
         <button mat-button mat-dialog-close>Cancel</button>
         <button mat-button type="submit" [mat-dialog-close]="projectForm.value">Save</button>
     </mat-dialog-actions>

@@ -19,11 +19,7 @@ export const routes: Routes = [
         component: ProjectComponent
     },
     {
-        path: 'project/new',
-        component: ProjectNewUpdateComponent
-    },
-    {
-        path: 'project/:id/update',
+        path: 'project/:id/edit',
         component: ProjectNewUpdateComponent
     }
 ];

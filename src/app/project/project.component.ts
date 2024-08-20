@@ -14,10 +14,9 @@ import { ProjectService } from './services/project.service';
 import { ProjectStore } from './store/project.store';
 import { ProjectFormComponent } from './components/project-form/project-form.component';
 import { AuthService } from '../auth/services/auth.service';
-import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { LinkStore } from './store/link.store';
-import { Link } from './models/link';
 import { MatLabel } from '@angular/material/form-field';
+import { GridService } from '../grid/grid.service/grid.service';
 
 @Component({
   selector: 'my-project',
@@ -36,9 +35,8 @@ export class ProjectComponent {
 
   readonly store = inject(ProjectStore);
   readonly linkStore = inject(LinkStore);
-  readonly dialog = inject(MatDialog);
 
-  projectId: number = -1;
+  projectId: string = "-1";
   project: any;
 
   constructor(
@@ -46,7 +44,8 @@ export class ProjectComponent {
     private router: Router,
     public location: Location,
     public projectService: ProjectService,
-    public authService: AuthService) {
+    public authService: AuthService,
+    private gridService: GridService) {
     effect(() => {
       // 👇 The effect will be re-executed whenever the state changes.
       const state = getState(this.store);
@@ -57,67 +56,30 @@ export class ProjectComponent {
   // Lifecycle
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.projectId = Number(params["id"])
+      this.projectId = params["id"];
 
-      this.linkStore.getLinks()
+      if (this.projectId == 'new') {
+        console.log('new')
+        this.store.newProject();
+        this.projectService.project.set(new Array<any>());
+        this.router.navigateByUrl('/project/' + this.projectId + '/edit');
+      } else {
+        this.linkStore.getLinks()
 
-      if (this.store.projects().length == 0 || this.store.project())
-        this.store.getProjectById(this.projectId)
-      else
-        this.store.filterProjectById(this.projectId)
+        if (this.store.projects().length == 0 || this.store.project())
+          this.store.getProjectById(Number(this.projectId))
+        else
+          this.store.filterProjectById(Number(this.projectId))
+      }
     })
   }
 
   // Events  
-  navProject() {
-    this.router.navigateByUrl('/project/' + this.projectId + '/update');
-  }
-
-  // updateProject() {
-  //   const dialogRef = this.dialog.open(ProjectFormComponent, { data: this.project, width: '90%' });
-
-  //   dialogRef.afterClosed().subscribe(project => {
-  //     if (project) {
-
-  //       //find differences between links array from the form and store
-  //       const linksToAdd = project.links.filter((link: Link) => !this.store.project().links.includes(link));
-  //       const linksToRemove = this.store.project().links.filter((link: Link) => !project.links.includes(link));
-
-  //       console.log('project from form:', project.links)
-  //       console.log('project:', this.store.project().links)
-  //       console.log('linksToAdd:', linksToAdd)
-  //       console.log('linksToRemove:', linksToRemove)
-
-  //       linksToAdd.forEach((link: Link) => {
-  //         if (link.id)
-  //           if (link.id < 0)
-  //             this.linkStore.addLink(link)
-  //       })
-
-  //       linksToRemove.forEach((link: Link) => {
-  //         if (link.id)
-  //           this.linkStore.deleteLink(link.id)
-  //       })
-
-  //       this.store.saveProject(project)
-  //       this.projectService.project.set(project)
-  //     }
-  //   });
-  // }
-
-  deleteProject() {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent);
-
-    dialogRef.afterClosed().subscribe(confirm => {
-      if (confirm)
-        this.store.deleteProject(this.projectId)
-      this.router.navigateByUrl('/grid/asc');
-    });
+  updateProject() {
+    this.router.navigateByUrl('/project/' + this.projectId + '/edit');
   }
 
   navigateToGrid() {
-    // this.location.back()
-    console.log("navigateToGrid")
-    this.router.navigateByUrl('/grid/asc');
+    this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
   }
 }

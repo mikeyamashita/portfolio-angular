@@ -22,7 +22,6 @@ export class ApiService {
     else {
       this.server.set('https://portfolio-webapi-hkh9cjbkepbha3gu.eastus-01.azurewebsites.net') //prod azure
     }
-    console.log(this.server())
   }
 
   httpOptions = {

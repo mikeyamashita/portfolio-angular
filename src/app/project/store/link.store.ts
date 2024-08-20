@@ -63,7 +63,6 @@ export const LinkStore = signalStore(
                     return linkService.getLinks().pipe(
                         tapResponse({
                             next: (links: Array<Link>) => {
-                                console.log(links)
                                 patchState(store, { links })
                             },
                             error: console.error,
@@ -80,7 +79,6 @@ export const LinkStore = signalStore(
                     return linkService.putLink(link).pipe(
                         tapResponse({
                             next: (res: Link) => {
-                                console.log(res)
                                 patchState(store, { link: link })
                                 // replace updated link
                                 patchState(store, (state: any) => ({ link: state.links.splice(state.links.findIndex((item: Link) => link.id == item.id), 1, link) }))

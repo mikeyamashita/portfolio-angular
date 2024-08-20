@@ -1,5 +1,5 @@
 import { computed, inject } from '@angular/core';
-import { delay, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
+import { distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import {
     patchState,
     signalStore,
@@ -17,6 +17,7 @@ type ProjectState = {
     project: any,
     projects: Array<any>;
     links: Array<Link>
+    isSavingProject: boolean,
     isLoading: boolean;
     isLoadingProject: boolean;
 };
@@ -26,6 +27,7 @@ const initialState: ProjectState = {
     project: [],
     projects: new Array<any>(),
     links: new Array<Link>(),
+    isSavingProject: false,
     isLoading: false,
     isLoadingProject: false
 };
@@ -44,6 +46,9 @@ export const ProjectStore = signalStore(
         filterProjectById(projectid: number): void {
             let project = store.projects().filter(project => project.id === projectid)[0]
             patchState(store, { project: project })
+        },
+        newProject(): void {
+            patchState(store, { project: [] })
         },
         getProjectById: rxMethod<number>(
             pipe(
@@ -96,7 +101,7 @@ export const ProjectStore = signalStore(
         ),
         saveProject: rxMethod<any>(
             pipe(
-                tap(() => patchState(store, { isLoading: true })),
+                tap(() => patchState(store, { isSavingProject: true })),
                 switchMap((project: any) => {
                     return projectService.putProject(project).pipe(
                         tapResponse({
@@ -108,7 +113,9 @@ export const ProjectStore = signalStore(
                                     projectService.getProjectById(project.id)
                             },
                             error: console.error,
-                            finalize: () => patchState(store, { isLoading: false }),
+                            finalize: () => {
+                                patchState(store, { isSavingProject: false })
+                            }
                         })
                     );
                 })
@@ -116,7 +123,7 @@ export const ProjectStore = signalStore(
         ),
         addProject: rxMethod<any>(
             pipe(
-                tap(() => patchState(store, { isLoading: true })),
+                tap(() => patchState(store, { isSavingProject: true })),
                 switchMap((project: any) => {
                     return projectService.postProject(project).pipe(
                         tapResponse({
@@ -125,7 +132,7 @@ export const ProjectStore = signalStore(
                                 // patchState(store, (state: any) => ({ projects: state.projects.push(project) }))
                             },
                             error: console.error,
-                            finalize: () => patchState(store, { isLoading: false }),
+                            finalize: () => patchState(store, { isSavingProject: false }),
                         })
                     );
                 })

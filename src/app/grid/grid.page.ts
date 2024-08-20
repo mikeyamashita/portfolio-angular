@@ -99,21 +99,7 @@ export class GridPage implements OnInit {
   }
 
   addProject() {
-    let newproject = {
-      "name": "",
-      "image": "",
-      "tags": [],
-      "url": '',
-      "type": ''
-    }
-    this.projectService.project.set(newproject)
-    const dialogRef = this.dialog.open(ProjectFormComponent, { data: newproject, width: '90%' });
-
-    dialogRef.afterClosed().subscribe(project => {
-      console.log(`Dialog result:`, project);
-      if (project)
-        this.store.addProject(project)
-    });
+    this.router.navigateByUrl('/project/new');
   }
 
   sortGrid() {

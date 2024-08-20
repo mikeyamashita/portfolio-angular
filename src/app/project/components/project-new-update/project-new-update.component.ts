@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
@@ -21,6 +21,8 @@ import { LinkStore } from '../../store/link.store';
 import { Link } from '../../models/link';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
+import { GridService } from '../../../grid/grid.service/grid.service';
 
 @Component({
   selector: 'app-project-new-update',
@@ -60,8 +62,9 @@ export class ProjectNewUpdateComponent {
   readonly addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly announcer = inject(LiveAnnouncer);
+  readonly dialog = inject(MatDialog);
 
-  projectId: number = -1;
+  projectId: string = '-1';
   addCount: number = -1;
 
   readonly tagsArr = signal<Array<string>>([])
@@ -74,34 +77,28 @@ export class ProjectNewUpdateComponent {
     private formBuilder: FormBuilder,
     public location: Location,
     public projectService: ProjectService,
-    public authService: AuthService) {
-    this.store.project().id ? this.projectForm.controls.id.setValue(this.store.project().id) : undefined;
-    this.projectForm.controls.image.setValue(this.store.project().image);
-    this.projectForm.controls.imageUrl.setValue(this.store.project().imageUrl);
-    this.projectForm.controls.name.setValue(this.store.project().name);
-    this.projectForm.controls.description.setValue(this.store.project().description);
-
-    this.store.project().links ? this.projectForm.controls.links.setValue(this.store.project().links) : this.projectForm.controls.links.setValue(new Array<Link>())
-    this.linksArr.set(this.store.project().links);
-
-    this.store.project().tags ? this.projectForm.controls.tags.setValue(this.store.project().tags) : this.projectForm.controls.tags.setValue([])
-    this.tagsArr.set(this.store.project().tags);
-    this.store.project().gallery ? this.projectForm.controls.gallery.setValue(this.store.project().gallery) : this.projectForm.controls.gallery.setValue([])
+    public authService: AuthService,
+    private gridService: GridService) {
   }
 
   // Lifecycle
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.projectId = Number(params["id"]);
-
+      this.projectId = params["id"];
+      console.log(this.projectId)
       console.log(this.projectService.project());
 
-      this.store.getLinksByProjectId(this.projectId)
+      this.setControls();
 
-      if (this.projectService.project().length == 0)
-        this.router.navigateByUrl('/project/' + this.projectId);
-      else
-        this.store.filterProjectById(this.projectId);
+      if (this.projectId == 'new') {
+        console.log('new')
+      } else {
+        this.store.getLinksByProjectId(Number(this.projectId))
+        if (this.projectService.project().length == 0)
+          this.router.navigateByUrl('/project/' + this.projectId);
+        else
+          this.store.filterProjectById(Number(this.projectId));
+      }
     })
   }
 
@@ -109,6 +106,31 @@ export class ProjectNewUpdateComponent {
     return arr1.filter(obj1 => !arr2.some(obj2 => obj1[key] === obj2[key]));
   }
 
+  setControls() {
+    if (this.projectId == "new") {
+      this.projectForm.controls.id.setValue(null);
+      this.projectForm.controls.image.setValue('');
+      this.projectForm.controls.imageUrl.setValue('');
+      this.projectForm.controls.name.setValue('');
+      this.projectForm.controls.description.setValue('');
+      this.projectForm.controls.links.setValue([]);
+      this.projectForm.controls.tags.setValue([]);
+      this.projectForm.controls.gallery.setValue([]);
+    } else {
+      this.store.project().id ? this.projectForm.controls.id.setValue(this.store.project().id) : undefined;
+      this.projectForm.controls.image.setValue(this.store.project().image);
+      this.projectForm.controls.imageUrl.setValue(this.store.project().imageUrl);
+      this.projectForm.controls.name.setValue(this.store.project().name);
+      this.projectForm.controls.description.setValue(this.store.project().description);
+
+      this.store.project().links ? this.projectForm.controls.links.setValue(this.store.project().links) : this.projectForm.controls.links.setValue(new Array<Link>())
+      this.linksArr.set(this.store.project().links);
+
+      this.store.project().tags ? this.projectForm.controls.tags.setValue(this.store.project().tags) : this.projectForm.controls.tags.setValue([])
+      this.tagsArr.set(this.store.project().tags);
+      this.store.project().gallery ? this.projectForm.controls.gallery.setValue(this.store.project().gallery) : this.projectForm.controls.gallery.setValue([])
+    }
+  }
   // Events
   onSubmit() {
     // console.warn(this.projectForm.value);
@@ -118,11 +140,6 @@ export class ProjectNewUpdateComponent {
   addLink() {
     console.log(this.linksForm.value)
     if (this.linksForm.value.name || this.linksForm.value.url) {
-      // let newLink = new Link();
-      // newLink.id = this.addCount--;
-      // newLink.name = this.linksForm.value?.name?.toString();
-      // newLink.url = this.linksForm.value?.url?.toString();
-      // newLink.projectId = Number(this.projectForm.value?.id);
       let newLink = { "id": this.addCount--, "name": this.linksForm.value.name, "url": this.linksForm.value.url, "projectId": Number(this.projectForm.value?.id) }
       this.linksArr().push(newLink);
 
@@ -132,13 +149,8 @@ export class ProjectNewUpdateComponent {
 
   removeLink(rmlink: Link) {
     if (rmlink.id) {
-      // this.linkService.linksToRemove.push(rmlink.id)
-      // if (this.linkService.linksToAdd.includes(rmlink))
-
       this.linksArr.set(this.linksArr().filter(link => link != rmlink))
-      // this.projectForm.value.links = this.linksArr().filter(link => link != rmlink)
       this.projectForm.value.links = this.linksArr();
-
     }
   }
 
@@ -200,7 +212,6 @@ export class ProjectNewUpdateComponent {
     this.projectForm.value.gallery = this.projectForm.value.gallery?.filter(img => img != photoUrl)
   }
 
-
   // Save
   saveProject() {
     const linksToAdd = this.difference(this.linksArr(), this.store.links(), 'id')
@@ -222,14 +233,31 @@ export class ProjectNewUpdateComponent {
         this.linkStore.deleteLink(link.id)
     })
 
-    this.store.saveProject(this.projectForm.value)
+    if (this.projectId == 'new') {
+      console.log('save new')
+      this.store.addProject(this.projectForm.value)
+    } else {
+      this.store.saveProject(this.projectForm.value)
+    }
     this.projectService.project.set(this.projectForm.value)
-    // this.store.getProjectById(this.projectId)
-    // this.location.back()
-    // this.router.navigateByUrl('/project/' + this.projectId);
+
   }
 
   cancelChanges() {
     this.router.navigateByUrl('/project/' + this.projectId);
+  }
+
+  deleteProject() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm)
+        //********delete associated links
+        this.store.deleteProject(Number(this.projectId))
+      this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
+    });
+  }
+  navigateToGrid() {
+    this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
   }
 }
