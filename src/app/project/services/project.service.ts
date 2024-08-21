@@ -49,10 +49,11 @@ export class ProjectService {
     return this.http.post<Project>(this.apiService.server() + '/api/Project', project, this.apiService.httpOptions)
       .pipe(
         tapResponse({
-          next: () => { },
+          next: (newproject) => {
+            this.router.navigateByUrl('/project/' + newproject.id);
+          },
           error: catchError(this.apiService.handleError),
           finalize: () => {
-            this.router.navigateByUrl('/project/' + project.id);
           }
         }),
       );
@@ -62,10 +63,11 @@ export class ProjectService {
     return this.http.put<Project>(this.apiService.server() + '/api/Project/' + project.id, project, this.apiService.httpOptions)
       .pipe(
         tapResponse({
-          next: () => { },
+          next: () => {
+            this.router.navigateByUrl('/project/' + project.id);
+          },
           error: catchError(this.apiService.handleError),
           finalize: () => {
-            this.router.navigateByUrl('/project/' + project.id);
           }
         }),
       );

@@ -233,6 +233,7 @@ export class ProjectNewUpdateComponent {
 
     if (this.projectId == 'new') {
       console.log('save new')
+      this.projectForm.value.id = undefined
       this.store.addProject(this.projectForm.value)
     } else {
       this.store.saveProject(this.projectForm.value)

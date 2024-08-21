@@ -1,7 +1,11 @@
 <div class="fixed left-[15px] top-[15px] z-30">
     <button mat-icon-button class="p-1" (click)="navigateToGrid()"
         [disabled]="(store.isLoadingProject() || store.isSavingProject()) || linkStore.isLoading()">
+        @if (projectId == "new") {
+        <mat-icon>close</mat-icon>
+        } @else {
         <mat-icon>arrow_back</mat-icon>
+        }
     </button>
 </div>
 @if (authService.token()) {
@@ -20,9 +24,10 @@
             2xs:py-0">
     <mat-card class="lg:min-h-full lg:w-[55%] lg:py-3 lg: ml-[15px]
                     md:min-h-full md:w-[66%] md:py-3 md: ml-[20px]
-                    sm:min-h-full sm:w-[70%] sm:py-3 
-                    xs:min-h-screen xs:w-[100vw] xs:py-3 
-                    2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3" [style.view-transition-name]="'project-' + projectId">
+                    sm:min-h-full sm:w-[70%] sm:py-3 sm: ml-0
+                    xs:min-h-screen xs:w-[100vw] xs:py-3 xs: ml-0
+                    2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3 2xs: ml-0"
+        [style.view-transition-name]="'project-' + projectId">
         <mat-card-content class="flex justify-center p-5 content-stretch
                                  2xs: mt-[25px] xs: mt-[25px] sm: mt-[25px] md: mt-[15px] lg: mt-[15px]">
             <form class="px-5" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
