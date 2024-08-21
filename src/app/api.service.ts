@@ -8,20 +8,18 @@ import { throwError } from 'rxjs';
 export class ApiService {
 
   public server = signal('')
-  public isDebugMode = signal(false)
+  public isStaging = signal(false)
 
   constructor() { }
 
   public setEnvironment() {
     if (isDevMode())
-      if (this.isDebugMode())
-        this.server.set('https://localhost:8001') //statging docker
-      else
-        this.server.set('https://localhost:7254') //dev local
+      this.server.set('https://localhost:7254') //dev local
     // this.server.set('http://192.168.50.173:7254') //dev external
-    else {
+    else if (this.isStaging())
+      this.server.set('https://localhost:8001') //staging docker
+    else
       this.server.set('https://portfolio-webapi-hkh9cjbkepbha3gu.eastus-01.azurewebsites.net') //prod azure
-    }
   }
 
   httpOptions = {
@@ -41,19 +39,4 @@ export class ApiService {
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
-
-  // private handleError(err: HttpErrorResponse) {
-
-  //   let errorMessage = '';
-  //   if (err.error instanceof ErrorEvent) {
-  //     errorMessage = `An error occurred: ${err.error.message}`;
-  //   } else {
-
-  //     errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-  //   }
-  //   console.error(errorMessage);
-  //   // return _throw (errorMessage);
-
-  //   return throwError(() => new Error('Something bad happened; please try again later.'));
-  // }
 }

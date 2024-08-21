@@ -1,90 +1,99 @@
 <div class="fixed left-[15px] top-[15px] z-30">
-    <button mat-icon-button class="p-1" (click)="navigateToGrid()">
+    <button mat-icon-button class="p-1" (click)="navigateToGrid()"
+        [disabled]="(store.isLoadingProject() || store.isSavingProject()) || linkStore.isLoading()">
         <mat-icon>arrow_back</mat-icon>
     </button>
 </div>
 @if (authService.token()) {
-<div class="xs:absolute sm:absolute md:absolute lg:fixed right-[67px] top-[15px] z-30">
-    <button mat-icon-button (click)="saveProject()">
+<div class="fixed right-[67px] top-[15px] z-30">
+    <button mat-icon-button (click)="saveProject()"
+        [disabled]="(store.isLoadingProject() || store.isSavingProject()) || linkStore.isLoading()">
         <mat-icon>save</mat-icon>
     </button>
-
 </div>
 }
-<div class="flex justify-center w-screen 
+<div class="flex justify-center w-screen
             lg:py-10 
             md:py-10 
-            sm:py-10 
-            xs:py-0">
-    <mat-card class="lg:min-h-full lg:w-[66%] lg:py-3 
-                    md:py-3 
-                    sm:min-h-full sm:w-[66%] sm:py-3 
+            sm:py-10
+            xs:py-0 
+            2xs:py-0">
+    <mat-card class="lg:min-h-full lg:w-[55%] lg:py-3 lg: ml-[15px]
+                    md:min-h-full md:w-[66%] md:py-3 md: ml-[20px]
+                    sm:min-h-full sm:w-[70%] sm:py-3 
                     xs:min-h-screen xs:w-[100vw] xs:py-3 
                     2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3" [style.view-transition-name]="'project-' + projectId">
         <mat-card-content class="flex justify-center p-5 content-stretch
-                                 2xs: mt-[45px] xs: mt-[45px] sm: mt-[45px] md: mt-[5px] lg: mt-[5px]">
-
+                                 2xs: mt-[25px] xs: mt-[25px] sm: mt-[25px] md: mt-[15px] lg: mt-[15px]">
             <form class="px-5" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
                 @if ((store.isLoadingProject() || store.isSavingProject()) || linkStore.isLoading() ){
-                <div class="lg:absolute lg:right-10 top-10
-                        md:absolute md:right-10 top-10
-                        sm:absolute sm:right-10 top-10
-                        xs:flex xs:justify-center
-                        2xs:flex 2xs:justify-center">
+                <div class="absolute lg:right-10 top-5
+                            md:right-10 top-5
+                            sm:right10 top-5
+                            xs:right-1/2 top-[14px] translate-x-1/2 translate-y-1/2
+                            2xs:right-1/2 top-[14px]  translate-x-1/2 translate-y-1/2">
                     <mat-spinner class="opacity-40" diameter="25" strokeWidth="4"></mat-spinner>
                 </div>
                 }
-                <div class="w-full pb-8">
-                    <div class="lg:flex lg:justify-start 
-                        md:flex md:justify-start 
-                        sm:flex sm:justify-start 
-                        xs:flex xs:justify-center
-                        2xs:flex 2xs:justify-center">
+                <div class="mb-[3px]">Logo</div>
+                <div class="w-full pb-8 flex
+                            lg:flex-row
+                            md:flex-row
+                            sm:flex-col
+                            xs:flex-col
+                            2xs:flex-col">
+                    <div class="flex justify-start">
                         <a [href]="projectService.project().imageUrl" target="_blank">
-                            <img [src]="projectService.project().image" class="h-[70px] object-contain flex justify-center max-w-[250px]
-                                lg:mt-0 mb-0
-                                md:mt-0 mb-0
+                            <img [src]="projectService.project().image" class="min-h-[150px] min-w-[150px] max-w-[170px]
+                                object-contain flex justify-center 
+                                border-dashed border-black border
+                                lg:mt-0 mb-0 mr-[35px]
+                                md:mt-0 mb-0 mr-[35px]
                                 sm:mt-0 mb-0
                                 xs:mt-8 mb-5
                                 2xs:mt-8 mb-5" [style.view-transition-name]="'image-' + projectId" />
                         </a>
                     </div>
+                    <div class="w-full content-end">
+                        <mat-form-field class="w-[100%]">
+                            <mat-label for="image">Logo Source: </mat-label>
+                            <input matInput id="image" type="text" formControlName="image">
+                        </mat-form-field>
+                        <mat-form-field class="w-[100%]">
+                            <mat-label for="imageUrl">Logo Path: </mat-label>
+                            <input matInput id="imageUrl" type="text" formControlName="imageUrl">
+                        </mat-form-field>
+                    </div>
                 </div>
-                <mat-form-field class="w-[75%]">
-                    <mat-label for="image">Logo Source: </mat-label>
-                    <input matInput id="image" type="text" formControlName="image">
-                </mat-form-field>
-                <mat-form-field class="w-[75%]">
-                    <mat-label for="imageUrl">Logo Path: </mat-label>
-                    <input matInput id="imageUrl" type="text" formControlName="imageUrl">
-                </mat-form-field>
-                <mat-form-field class="w-[75%]">
+
+                <div class="mb-[3px]">Details</div>
+                <mat-form-field class="w-[100%]">
                     <mat-label for="name">Name: </mat-label>
                     <input matInput id="name" type="text" formControlName="name"
                         [style.view-transition-name]="'name-' + projectId">
                 </mat-form-field>
                 <mat-form-field class="w-[100%]">
                     <mat-label for="description">Description: </mat-label>
-                    <textarea matInput id="description" type="text" formControlName="description"
+                    <textarea matInput id="description" type="text" rows=5 formControlName="description"
                         [style.view-transition-name]="'description-' + projectId"></textarea>
                 </mat-form-field>
 
-                <form class="flex flex-row pb-5 w-[100%]" [formGroup]="linksForm">
+                <form class="flex flex-row pt-5 pb-5 w-[100%]" [formGroup]="linksForm">
                     <div class="w-[100%]">
-                        <label>Links</label>
-                        @for (link of linksArr(); track link.id) {
-                        <div>
+                        <div class="mb-[3px]">Links</div>
+                        <div class="mt-[-10px]">
+                            @for (link of linksArr(); track link.id) {
                             <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
                                 [href]="link.url" target="_blank"
                                 [style.view-transition-name]="'link'+link.id+'-' + projectId">{{link.name}}</a>
-                            <button mat-icon-button class="h-[30px] w-[30px] relative top-[7.5px]"
+                            <button mat-icon-button class="h-[30px] w-[30px] relative top-[7.5px] ml-2"
                                 (click)="removeLink(link)"
                                 [style.view-transition-name]="'link-delete'+link.id+'-' + projectId">
                                 <mat-icon class="close-icon text-base">close</mat-icon>
                             </button>
+                            }
                         </div>
-                        }
-                        <div class="flex flex-row pb-5">
+                        <div class="flex flex-row pb-5 pt-3">
                             <mat-form-field class="w-[100%] pr-5">
                                 <mat-label for="name">Label: </mat-label>
                                 <input matInput type="text" formControlName="name">
@@ -100,14 +109,15 @@
                     </div>
                 </form>
 
-                <label>Tags</label>
+                <div class="mb-[3px]">Tags</div>
                 <mat-form-field class="w-[100%]">
                     <mat-label for="tags">Tags: </mat-label>
                     <mat-chip-grid #tagsGrid aria-label="tags">
-                        @for (tag of tagsArr(); track tag) {
+                        @for (tag of tagsArr(); let index = $index; track tag) {
                         <mat-chip-row (removed)="remove(tag)" [editable]="true" (edited)="edit(tag, $event)"
-                            [aria-description]="'press enter to edit ' + tag">
-                            {{tag}}
+                            [aria-description]="'press enter to edit ' + tag"
+                            [style.view-transition-name]="'tag-'+index+'-' + projectId">
+                            <span>{{tag}}</span>
                             <button matChipRemove [attr.aria-label]="'remove ' + tag">
                                 <mat-icon>cancel</mat-icon>
                             </button>
@@ -125,13 +135,14 @@
                         <textarea matInput id="gallery" type="text" formControlName="gallery"></textarea>
                     </mat-form-field>
                 </div>
-                <label>Gallery</label>
+                <div class="mb-[3px]">Gallery</div>
                 <div class="sm:grid-cols-1 sm: grid sm: gap-8
                             md:grid-cols-3 md: grid md: gap-8 
                             lg:grid-cols-3 lg: grid lg: gap-8">
-                    @for (photoUrl of projectForm.value.gallery; track photoUrl){
+                    @for (photoUrl of projectForm.value.gallery; let index = $index; track photoUrl){
                     <div class="h-[150px] w-[150px]">
-                        <img [src]="photoUrl" class="h-[150px] w-[150px] object-contain border-1" />
+                        <img [src]="photoUrl" class="h-[150px] w-[150px] object-contain border-1"
+                            [style.view-transition-name]="'gallery-'+index+'-' + projectId" />
                         <button mat-icon-button class="h-[30px] w-[30px] relative top-[-162px] right-[-135px]"
                             (click)="removeImage(photoUrl)">
                             <mat-icon class="close-icon text-base">close</mat-icon>
@@ -140,7 +151,7 @@
                     }
                 </div>
 
-                <form class="flex flex-row pb-5 w-[100%]" [formGroup]="galleryForm">
+                <form class="flex flex-row pb-5 bt-5 w-[100%]" [formGroup]="galleryForm">
                     <mat-form-field class="w-[100%] pr-5">
                         <mat-label for="image">Image Source: </mat-label>
                         <input matInput type="text" formControlName="imgsrc">
@@ -150,7 +161,7 @@
                     </button>
                 </form>
                 <div class="flex flex-row justify-center w-full">
-                    @if (authService.token()) {
+                    @if (authService.token() && projectId != 'new') {
                     <button mat-button class="p-10" style="color: red" (click)="deleteProject()"
                         [style.view-transition-name]="'button2-' + projectId">
                         <mat-label>Delete</mat-label>

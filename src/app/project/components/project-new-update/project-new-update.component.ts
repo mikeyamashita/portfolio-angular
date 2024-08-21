@@ -122,10 +122,8 @@ export class ProjectNewUpdateComponent {
       this.projectForm.controls.imageUrl.setValue(this.store.project().imageUrl);
       this.projectForm.controls.name.setValue(this.store.project().name);
       this.projectForm.controls.description.setValue(this.store.project().description);
-
       this.store.project().links ? this.projectForm.controls.links.setValue(this.store.project().links) : this.projectForm.controls.links.setValue(new Array<Link>())
       this.linksArr.set(this.store.project().links);
-
       this.store.project().tags ? this.projectForm.controls.tags.setValue(this.store.project().tags) : this.projectForm.controls.tags.setValue([])
       this.tagsArr.set(this.store.project().tags);
       this.store.project().gallery ? this.projectForm.controls.gallery.setValue(this.store.project().gallery) : this.projectForm.controls.gallery.setValue([])
@@ -257,7 +255,11 @@ export class ProjectNewUpdateComponent {
       this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
     });
   }
+
   navigateToGrid() {
-    this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
+    if (this.projectId == 'new')
+      this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
+    else
+      this.router.navigateByUrl('/project/' + this.projectId);
   }
 }

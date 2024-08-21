@@ -7,17 +7,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ProjectService } from '../project/services/project.service';
 import { ProjectStore } from '../project/store/project.store';
-import { ProjectFormComponent } from '../project/components/project-form/project-form.component';
 import { AuthService } from '../auth/services/auth.service';
 import { GridService } from './grid.service/grid.service';
 import { FormsModule } from '@angular/forms';
-import { Project } from '../project/models/project';
 
 @Component({
   selector: 'my-grid',
