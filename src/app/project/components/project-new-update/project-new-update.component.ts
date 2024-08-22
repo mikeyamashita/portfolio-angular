@@ -102,8 +102,8 @@ export class ProjectNewUpdateComponent {
     })
   }
 
-  difference(arr1: any[], arr2: any[], key: string | number) {
-    return arr1.filter(obj1 => !arr2.some(obj2 => obj1[key] === obj2[key]));
+  difference(arr1: Array<Link>, arr2: Array<Link>) {
+    return arr1.filter(obj1 => !arr2.some(obj2 => obj1.id === obj2.id));
   }
 
   setControls() {
@@ -136,7 +136,6 @@ export class ProjectNewUpdateComponent {
 
   //Events - Links
   addLink() {
-    console.log(this.linksForm.value)
     if (this.linksForm.value.name || this.linksForm.value.url) {
       let newLink = { "id": this.addCount--, "name": this.linksForm.value.name, "url": this.linksForm.value.url, "projectId": Number(this.projectForm.value?.id) }
       this.linksArr().push(newLink);
@@ -212,30 +211,39 @@ export class ProjectNewUpdateComponent {
 
   // Save
   saveProject() {
-    const linksToAdd = this.difference(this.linksArr(), this.store.links(), 'id')
-    const linksToRemove = this.difference(this.store.links(), this.linksArr(), 'id')
+    const linksToAdd: Array<Link> = this.difference(this.linksArr(), this.store.links())
+    const linksToRemove: Array<Link> = this.difference(this.store.links(), this.linksArr())
 
-    console.log('project links from form:', this.linksArr())
-    console.log('project links from store:', this.store.links())
-    console.log('linksToAdd:', linksToAdd)
-    console.log('linksToRemove:', linksToRemove)
+    // const symmetricDifference = [...linksToAdd.concat(linksToRemove)];
 
-    linksToAdd.forEach((link: Link) => {
-      if (link.id)
-        if (link.id < 0)
-          this.linkStore.addLink(link)
-    })
-
-    linksToRemove.forEach((link: Link) => {
-      if (link.id)
-        this.linkStore.deleteLink(link.id)
-    })
+    console.log('project form:', this.projectForm.value)
 
     if (this.projectId == 'new') {
       console.log('save new')
+
       this.projectForm.value.id = undefined
+      // linksToAdd.forEach((link: Link) => {
+      //   this.projectForm.value.links?.push(link)
+      // })
+
       this.store.addProject(this.projectForm.value)
     } else {
+      console.log('project links from form:', this.linksArr())
+      console.log('project links from store:', this.store.links())
+      console.log('linksToAdd:', linksToAdd)
+      console.log('linksToRemove:', linksToRemove)
+      // console.log('symmetric difference:', symmetricDifference)
+
+      linksToAdd.forEach((link: Link) => {
+        if (link.id)
+          if (link.id < 0)
+            this.linkStore.addLink(link)
+      })
+
+      linksToRemove.forEach((link: Link) => {
+        if (link.id)
+          this.linkStore.deleteLink(link.id)
+      })
       this.store.saveProject(this.projectForm.value)
     }
     this.projectService.project.set(this.projectForm.value)
@@ -251,8 +259,13 @@ export class ProjectNewUpdateComponent {
 
     dialogRef.afterClosed().subscribe(confirm => {
       if (confirm)
-        //********delete associated links
-        this.store.deleteProject(Number(this.projectId))
+        //delete associated links before deleting project
+        if (this.linksArr().length > 0) {
+          this.linksArr().forEach((link: any) => {
+            this.linkStore.deleteLink(link.id);
+          })
+        }
+      this.store.deleteProject(Number(this.projectId))
       this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
     });
   }

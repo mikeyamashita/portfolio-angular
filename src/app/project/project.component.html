@@ -12,10 +12,10 @@
     </button>
 </div>
 }
-<div class="flex justify-center w-screen h-full
-            lg:py-10 
-            md:py-10 
-            sm:py-10 
+<div class="flex justify-center w-screen 
+            lg:py-5 
+            md:py-5 
+            sm:py-5 
             xs:py-0
             2xs:py-0">
     <mat-card class="lg:min-h-full lg:w-[55%] lg:py-3 
@@ -24,7 +24,8 @@
                     xs:min-h-screen xs:w-[100vw] xs:py-3 
                     2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3" [style.view-transition-name]="'project-' + projectId">
         <mat-card-content class="flex justify-center p-5 content-stretch
-                                 2xs: mt-[45px] xs: mt-[45px] sm: mt-[45px] md: mt-[5px] lg: mt-[5px]">
+                                 2xs: mt-[45px] xs: mt-[45px] sm: mt-[45px] md: mt-[5px] lg: mt-[5px]"
+            [style.view-transition-name]="'project-content-' + projectId">
             <div class="px-5">
                 @if (store.isLoadingProject() ){
                 <div class="absolute lg:right-10 top-5
@@ -55,7 +56,7 @@
 
                 <div class="pt-5">
                     @for (link of projectService.project().links; track link.id) {
-                    <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
+                    <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90 pr-3"
                         [href]="link.url" target="_blank"
                         [style.view-transition-name]="'link'+link.id+'-' + projectId">{{link.name}}</a>
                     }
@@ -65,7 +66,7 @@
                     @for (tag of projectService.project().tags; let index = $index; track tag) {
                     <mat-chip-row [aria-description]="'press enter to edit ' + tag"
                         [style.view-transition-name]="'tag-'+index+'-' + projectId">
-                        <span>{{tag}}</span>
+                        <div>{{tag}}</div>
                     </mat-chip-row>
                     }
                 </mat-chip-set>

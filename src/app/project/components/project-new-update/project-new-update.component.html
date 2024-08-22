@@ -1,11 +1,7 @@
 <div class="fixed left-[15px] top-[15px] z-30">
     <button mat-icon-button class="p-1" (click)="navigateToGrid()"
         [disabled]="(store.isLoadingProject() || store.isSavingProject()) || linkStore.isLoading()">
-        @if (projectId == "new") {
         <mat-icon>close</mat-icon>
-        } @else {
-        <mat-icon>arrow_back</mat-icon>
-        }
     </button>
 </div>
 @if (authService.token()) {
@@ -16,20 +12,21 @@
     </button>
 </div>
 }
-<div class="flex justify-center w-screen
-            lg:py-10 
-            md:py-10 
-            sm:py-10
+<div class="flex justify-center w-screen h-full
+            lg:py-5
+            md:py-5 
+            sm:py-5
             xs:py-0 
             2xs:py-0">
-    <mat-card class="lg:min-h-full lg:w-[55%] lg:py-3 lg: ml-[15px]
-                    md:min-h-full md:w-[66%] md:py-3 md: ml-[20px]
-                    sm:min-h-full sm:w-[70%] sm:py-3 sm: ml-0
-                    xs:min-h-screen xs:w-[100vw] xs:py-3 xs: ml-0
-                    2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3 2xs: ml-0"
-        [style.view-transition-name]="'project-' + projectId">
+    <mat-card class="lg:h-full lg:w-[55%] lg:py-3 
+                    md:min-h-full md:w-[66%] md:py-3
+                    sm:min-h-full sm:w-[70%] sm:py-3
+                    xs:min-h-screen xs:w-[100vw] xs:py-3 
+                    2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3
+                    overflow-y-auto" [style.view-transition-name]="'project-' + projectId">
         <mat-card-content class="flex justify-center p-5 content-stretch
-                                 2xs: mt-[25px] xs: mt-[25px] sm: mt-[25px] md: mt-[15px] lg: mt-[15px]">
+                                 2xs: mt-[25px] xs: mt-[25px] sm: mt-[25px] md: mt-[15px] lg: mt-[15px]"
+            [style.view-transition-name]="'project-content-' + projectId">
             <form class="px-5" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
                 @if ((store.isLoadingProject() || store.isSavingProject()) || linkStore.isLoading() ){
                 <div class="absolute lg:right-10 top-5
@@ -40,7 +37,6 @@
                     <mat-spinner class="opacity-40" diameter="25" strokeWidth="4"></mat-spinner>
                 </div>
                 }
-                <div class="mb-[3px]">Logo</div>
                 <div class="w-full pb-8 flex
                             lg:flex-row
                             md:flex-row
@@ -49,7 +45,7 @@
                             2xs:flex-col">
                     <div class="flex justify-start">
                         <a [href]="projectService.project().imageUrl" target="_blank">
-                            <img [src]="projectService.project().image" class="min-h-[150px] min-w-[150px] max-w-[170px]
+                            <img [src]="projectService.project().image" class="min-h-[160px] min-w-[160px] max-w-[170px]
                                 object-contain flex justify-center 
                                 border-dashed border-black border
                                 lg:mt-0 mb-0 mr-[35px]
@@ -60,6 +56,7 @@
                         </a>
                     </div>
                     <div class="w-full content-end">
+                        <div class="mb-2">Logo</div>
                         <mat-form-field class="w-[100%]">
                             <mat-label for="image">Logo Source: </mat-label>
                             <input matInput id="image" type="text" formControlName="image">
@@ -71,7 +68,7 @@
                     </div>
                 </div>
 
-                <div class="mb-[3px]">Details</div>
+                <div class="mb-2">Details</div>
                 <mat-form-field class="w-[100%]">
                     <mat-label for="name">Name: </mat-label>
                     <input matInput id="name" type="text" formControlName="name"
@@ -85,8 +82,8 @@
 
                 <form class="flex flex-row pt-5 pb-5 w-[100%]" [formGroup]="linksForm">
                     <div class="w-[100%]">
-                        <div class="mb-[3px]">Links</div>
-                        <div class="mt-[-10px]">
+                        <div class="mb-0">Links</div>
+                        <div>
                             @for (link of linksArr(); track link.id) {
                             <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
                                 [href]="link.url" target="_blank"
@@ -113,39 +110,39 @@
                         </div>
                     </div>
                 </form>
-
-                <div class="mb-[3px]">Tags</div>
-                <mat-form-field class="w-[100%]">
-                    <mat-label for="tags">Tags: </mat-label>
-                    <mat-chip-grid #tagsGrid aria-label="tags">
-                        @for (tag of tagsArr(); let index = $index; track tag) {
-                        <mat-chip-row (removed)="remove(tag)" [editable]="true" (edited)="edit(tag, $event)"
-                            [aria-description]="'press enter to edit ' + tag"
-                            [style.view-transition-name]="'tag-'+index+'-' + projectId">
-                            <span>{{tag}}</span>
-                            <button matChipRemove [attr.aria-label]="'remove ' + tag">
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </mat-chip-row>
-                        }
-                        <input placeholder="New Tag..." [matChipInputFor]="tagsGrid"
-                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                            (matChipInputTokenEnd)="add($event)" />
-                    </mat-chip-grid>
-                </mat-form-field>
+                <div class="pt-3">
+                    <div class="mb-2">Tags</div>
+                    <mat-form-field class="w-[100%]">
+                        <mat-label for="tags">Tags: </mat-label>
+                        <mat-chip-grid #tagsGrid aria-label="tags">
+                            @for (tag of tagsArr(); let index = $index; track tag) {
+                            <mat-chip-row (removed)="remove(tag)" [editable]="true" (edited)="edit(tag, $event)"
+                                [aria-description]="'press enter to edit ' + tag"
+                                [style.view-transition-name]="'tag-'+index+'-' + projectId">
+                                <span>{{tag}}</span>
+                                <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip-row>
+                            }
+                            <input placeholder="New Tag..." [matChipInputFor]="tagsGrid"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                                (matChipInputTokenEnd)="add($event)" />
+                        </mat-chip-grid>
+                    </mat-form-field>
+                </div>
 
                 <div class="hidden">
                     <mat-form-field class="w-[100%]">
-                        <mat-label for="description">Gallery: </mat-label>
                         <textarea matInput id="gallery" type="text" formControlName="gallery"></textarea>
                     </mat-form-field>
                 </div>
-                <div class="mb-[3px]">Gallery</div>
+                <div>Gallery</div>
                 <div class="sm:grid-cols-1 sm: grid sm: gap-8
                             md:grid-cols-3 md: grid md: gap-8 
                             lg:grid-cols-3 lg: grid lg: gap-8">
                     @for (photoUrl of projectForm.value.gallery; let index = $index; track photoUrl){
-                    <div class="h-[150px] w-[150px]">
+                    <div class="h-[150px] w-[150px] mt-2">
                         <img [src]="photoUrl" class="h-[150px] w-[150px] object-contain border-1"
                             [style.view-transition-name]="'gallery-'+index+'-' + projectId" />
                         <button mat-icon-button class="h-[30px] w-[30px] relative top-[-162px] right-[-135px]"
@@ -155,17 +152,19 @@
                     </div>
                     }
                 </div>
+                <div class="mt-2">
+                    <form class="flex flex-row w-[100%]" [formGroup]="galleryForm">
+                        <mat-form-field class="w-[100%] pr-5">
+                            <mat-label for="image">Image Source: </mat-label>
+                            <input matInput type="text" formControlName="imgsrc">
+                        </mat-form-field>
+                        <button mat-icon-button color="transparent" (click)="addImage()">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </form>
+                </div>
 
-                <form class="flex flex-row pb-5 bt-5 w-[100%]" [formGroup]="galleryForm">
-                    <mat-form-field class="w-[100%] pr-5">
-                        <mat-label for="image">Image Source: </mat-label>
-                        <input matInput type="text" formControlName="imgsrc">
-                    </mat-form-field>
-                    <button mat-icon-button color="transparent" (click)="addImage()">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                </form>
-                <div class="flex flex-row justify-center w-full">
+                <div class="flex flex-row justify-center w-full pt-5">
                     @if (authService.token() && projectId != 'new') {
                     <button mat-button class="p-10" style="color: red" (click)="deleteProject()"
                         [style.view-transition-name]="'button2-' + projectId">

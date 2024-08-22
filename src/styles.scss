@@ -43,9 +43,15 @@ html {
 html,
 body {
     height: 100%;
+    margin: 0;
+    overflow: hidden;
     background-color: rgb(253, 253, 253);
 }
 body {
-    margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    display: none;
 }

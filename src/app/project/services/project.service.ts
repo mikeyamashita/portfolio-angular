@@ -50,6 +50,7 @@ export class ProjectService {
       .pipe(
         tapResponse({
           next: (newproject) => {
+            console.log(newproject)
             this.router.navigateByUrl('/project/' + newproject.id);
           },
           error: catchError(this.apiService.handleError),

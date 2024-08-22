@@ -32,8 +32,8 @@
     xs:w-[92vw] 
     sm:w-[200px] 
     md:w-[250px] 
-    lg:w-[200px]" [style.view-transition-name]="'project-' + project.name" (click)="cardClicked(project)">
-      <mat-card-content>
+    lg:w-[200px]" [style.view-transition-name]="'project-' + project.id" (click)="cardClicked(project)">
+      <mat-card-content [style.view-transition-name]="'project-content-' + project.id">
         <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
           [style.view-transition-name]="'image-' + project.id" />
         <div class="h-[30px] w-[300px]" [style.view-transition-name]="'content-' + project.id">

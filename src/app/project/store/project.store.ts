@@ -1,5 +1,5 @@
 import { computed, inject } from '@angular/core';
-import { distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
+import { concat, concatMap, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import {
     patchState,
     signalStore,
@@ -11,6 +11,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { ProjectService } from '../services/project.service';
 import { Link } from '../models/link';
+import { LinkService } from '../services/link.service';
 
 type ProjectState = {
     id: number,
@@ -39,7 +40,7 @@ export const ProjectStore = signalStore(
         projectsCount: computed(() => projects().length),
         projectsList: computed(() => projects())
     })),
-    withMethods((store, projectService = inject(ProjectService)) => ({
+    withMethods((store, projectService = inject(ProjectService), linkService = inject(LinkService)) => ({
         setProjectId(projectid: number): void {
             patchState(store, { id: projectid });
         },
@@ -124,7 +125,7 @@ export const ProjectStore = signalStore(
         addProject: rxMethod<any>(
             pipe(
                 tap(() => patchState(store, { isSavingProject: true })),
-                switchMap((project: any) => {
+                concatMap((project: any) => {
                     return projectService.postProject(project).pipe(
                         tapResponse({
                             next: (res: any) => {
