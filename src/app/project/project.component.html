@@ -12,20 +12,19 @@
     </button>
 </div>
 }
-<div class="flex justify-center w-screen 
+<div class="flex justify-center w-screen
             lg:py-5 
             md:py-5 
             sm:py-5 
             xs:py-0
             2xs:py-0">
-    <mat-card class="lg:min-h-full lg:w-[55%] lg:py-3 
-                    md:min-h-full md:w-[66%] md:py-3 
-                    sm:min-h-full sm:w-[70%] sm:py-3 
-                    xs:min-h-screen xs:w-[100vw] xs:py-3 
-                    2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3" [style.view-transition-name]="'project-' + projectId">
+    <mat-card class="lg:w-[55%] lg:py-3 
+                    md:w-[66%] md:py-3 
+                    sm:w-[70%] sm:py-3 
+                    xs:w-[100vw] xs:py-3 
+                    2xs:w-[100vw] 2xs:py-3" [style.view-transition-name]="'project-' + projectId">
         <mat-card-content class="flex justify-center p-5 content-stretch
-                                 2xs: mt-[45px] xs: mt-[45px] sm: mt-[45px] md: mt-[5px] lg: mt-[5px]"
-            [style.view-transition-name]="'project-content-' + projectId">
+                                 2xs: mt-[45px] xs: mt-[45px] sm: mt-[45px] md: mt-[5px] lg: mt-[5px]">
             <div class="px-5">
                 @if (store.isLoadingProject() ){
                 <div class="absolute lg:right-10 top-5
@@ -36,7 +35,11 @@
                     <mat-spinner class="opacity-40" diameter="25" strokeWidth="4"></mat-spinner>
                 </div>
                 }
-                <div class="flex justify-start">
+                <div class="lg:flex lg:flex-row lg:justify-start 
+                        md:flex md:flex-row md:justify-start 
+                        sm:flex sm:flex-row sm:justify-start 
+                        xs:flex xs:flex-row xs:justify-center 
+                        2xs:flex 2xs:flex-row 2xs:justify-center">
                     <a [href]="projectService.project().imageUrl" target="_blank">
                         <img [src]="projectService.project().image" class="min-h-[100px] min-w-[100px] max-w-[250px]
                         object-contain flex justify-center

@@ -18,15 +18,14 @@
             sm:py-5
             xs:py-0 
             2xs:py-0">
-    <mat-card class="lg:h-full lg:w-[55%] lg:py-3 
-                    md:min-h-full md:w-[66%] md:py-3
-                    sm:min-h-full sm:w-[70%] sm:py-3
-                    xs:min-h-screen xs:w-[100vw] xs:py-3 
-                    2xs:min-h-screen 2xs:w-[100vw] 2xs:py-3
+    <mat-card class="lg:w-[55%] lg:py-3 
+                    md:w-[66%] md:py-3
+                    sm:w-[70%] sm:py-3
+                    xs:w-[100vw] xs:py-3 
+                    2xs:w-[100vw] 2xs:py-3
                     overflow-y-auto" [style.view-transition-name]="'project-' + projectId">
         <mat-card-content class="flex justify-center p-5 content-stretch
-                                 2xs: mt-[25px] xs: mt-[25px] sm: mt-[25px] md: mt-[15px] lg: mt-[15px]"
-            [style.view-transition-name]="'project-content-' + projectId">
+                                 2xs: mt-[25px] xs: mt-[25px] sm: mt-[25px] md: mt-[15px] lg: mt-[15px]">
             <form class="px-5" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
                 @if ((store.isLoadingProject() || store.isSavingProject()) || linkStore.isLoading() ){
                 <div class="absolute lg:right-10 top-5
