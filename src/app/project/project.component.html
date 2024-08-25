@@ -12,13 +12,14 @@
     </button>
 </div>
 }
-<div class="flex justify-center w-screen
+<div class="flex justify-center w-screen h-full
             lg:py-5 
             md:py-5 
             sm:py-5 
             xs:py-0
             2xs:py-0">
-    <mat-card class="lg:w-[55%] lg:py-3 
+    <mat-card class="h-full
+                    lg:w-[55%] lg:py-3 
                     md:w-[66%] md:py-3 
                     sm:w-[70%] sm:py-3 
                     xs:w-[100vw] xs:py-3 
@@ -50,8 +51,7 @@
                         2xs:mt-8 mb-5" [style.view-transition-name]="'image-' + projectId" />
                     </a>
                 </div>
-                <h2 class="h-[30px] w-[300px]" [style.view-transition-name]="'content-' + projectId"
-                    [style.view-transition-name]="'name-' + projectId">{{
+                <h2 class="h-[30px] w-[300px]" [style.view-transition-name]="'name-' + projectId">{{
                     projectService.project().name }}
                 </h2>
                 <div [style.view-transition-name]="'description-' + projectId">{{ projectService.project().description}}

@@ -80,6 +80,8 @@ export class ProjectComponent {
   }
 
   navigateToGrid() {
+    // this.location.back()
+    console.log(this.router.lastSuccessfulNavigation?.previousNavigation)
     this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
   }
 }

@@ -28,15 +28,16 @@
               md:grid-cols-3 md: grid md: gap-3 
               lg:grid-cols-4 lg: grid lg: gap-3">
     @for (project of projects; track project.id) {
-    <mat-card class="h-[200px] transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150
+    <mat-card class="transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150 h-[200px] 
+    2xs:w-[92vw] 
     xs:w-[92vw] 
     sm:w-[200px] 
     md:w-[250px] 
-    lg:w-[200px]" [style.view-transition-name]="'project-' + project.id" (click)="cardClicked(project)">
+    lg:w-[250px]" [style.view-transition-name]="'project-' + project.id" (click)="cardClicked(project)">
       <mat-card-content>
         <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
           [style.view-transition-name]="'image-' + project.id" />
-        <div class="h-[30px] w-[300px]" [style.view-transition-name]="'content-' + project.id">
+        <div class="h-[30px] w-[300px]" [style.view-transition-name]="'name-' + project.id">
           {{ project.name }}
         </div>
       </mat-card-content>
