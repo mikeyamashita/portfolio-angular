@@ -21,7 +21,7 @@
       <div class="pt-5">
         <br>
         ** Demo: feel free to login, browse, create, update, and delete **
-        <br><br>
+        <br>
         ** work in progress, best viewed in Chrome/Edge desktop or Android Chrome **
         <br><br>
         <button class="mb-1" mat-button href="https://github.com/mikeyamashita/portfolio-angular">
@@ -69,15 +69,17 @@
             lg:grid-cols-4 lg: grid lg: gap-3">
       @for (project of projects; track project.id) {
       <mat-card class="transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150 h-[200px] 
-  2xs:w-[92vw] 
-  xs:w-[92vw] 
-  sm:w-[200px] 
-  md:w-[200px] 
-  lg:w-[200px]" [style.view-transition-name]="'project-' + project.id" (click)="cardClicked(project)">
+                      2xs:w-[92vw] 
+                      xs:w-[92vw] 
+                      sm:w-[200px] 
+                      md:w-[250px] 
+                      lg:w-[250px]" [style.view-transition-name]="'project-' + project.id"
+        (click)="cardClicked(project)">
         <mat-card-content>
           <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
             [style.view-transition-name]="'image-' + project.id" />
-          <div class="h-[30px] w-fit pt-[10px]" [style.view-transition-name]="'name-' + project.id"
+
+          <div class="h-[30px] w-fit h-[50px] pt-[10px]" [style.view-transition-name]="'name-' + project.id"
             [innerHTML]="project.name">
           </div>
         </mat-card-content>
