@@ -37,8 +37,8 @@
       <mat-card-content>
         <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
           [style.view-transition-name]="'image-' + project.id" />
-        <div class="h-[30px] w-fit" [style.view-transition-name]="'name-' + project.id">
-          {{ project.name }}
+        <div class="h-[30px] w-fit pt-[10px]" [style.view-transition-name]="'name-' + project.id"
+          [innerHTML]="project.name">
         </div>
       </mat-card-content>
     </mat-card>

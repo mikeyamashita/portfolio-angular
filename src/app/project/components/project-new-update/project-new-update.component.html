@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="mb-2">Details</div>
-                <mat-form-field class="w-[full]">
+                <mat-form-field class="w-full">
                     <mat-label for="name">Name: </mat-label>
                     <input matInput class="text-base" id="name" type="text" formControlName="name"
                         [style.view-transition-name]="'name-' + projectId">
@@ -84,7 +84,7 @@
                         <div class="mb-0">Links</div>
                         <div>
                             @for (link of linksArr(); track link.id) {
-                            <a class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
+                            <a class="text-blue-600 text-lg hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
                                 [href]="link.url" target="_blank"
                                 [style.view-transition-name]="'link'+link.id+'-' + projectId">{{link.name}}</a>
                             <button mat-icon-button class="h-[30px] w-[30px] relative top-[7.5px] ml-2"
