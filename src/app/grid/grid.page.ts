@@ -16,6 +16,7 @@ import { ProjectStore } from '../project/store/project.store';
 import { AuthService } from '../auth/services/auth.service';
 import { GridService } from './grid.service/grid.service';
 import { FormsModule } from '@angular/forms';
+import { GitHubIcon } from "../../assets/icons/github-mark";
 
 @Component({
   selector: 'my-grid',
@@ -29,7 +30,8 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    FormsModule
+    FormsModule,
+    GitHubIcon
   ],
   // providers: [ProjectStore],
   // changeDetection: ChangeDetectionStrategy.OnPush,

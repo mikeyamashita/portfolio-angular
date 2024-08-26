@@ -1,14 +1,5 @@
 <div class="grid-page">
-  <div class="flex flex-row justify-center pt-[15px]">
-    <mat-form-field class="pt-[55px] w-[100%] sm:pr-10 sm:pl-10 md:pr-24 md:pl-24 lg:pr-36 lg:pl-36"
-      appearance="outline">
-      <input #searchText matInput type="search" placeholder="Search" [(ngModel)]="search" (keydown.enter)="filter()"
-        (ngModelChange)="filter()">
-      <button mat-icon-button matSuffix class="mr-[4px]" (click)="filter()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-  </div>
+
   <div class="xs:absolute sm:absolute md:absolute lg:fixed right-[67px] top-[15px]">
     <button mat-icon-button (click)="sortGrid()">
       <mat-icon>sort_by_alpha</mat-icon>
@@ -19,37 +10,78 @@
     </button>
     }
   </div>
-  @if (store.isLoading()){
-  <div class="flex flex-row justify-center ">
-    <mat-spinner class="opacity-40" diameter="25" strokeWidth="4"></mat-spinner>
-  </div>
-  }
-  <div class="sm:grid-cols-3 sm: grid sm: gap-3
-              md:grid-cols-4 md: grid md: gap-3 
-              lg:grid-cols-4 lg: grid lg: gap-3">
-    @for (project of projects; track project.id) {
-    <mat-card class="transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150 h-[200px] 
-    2xs:w-[92vw] 
-    xs:w-[92vw] 
-    sm:w-[200px] 
-    md:w-[200px] 
-    lg:w-[200px]" [style.view-transition-name]="'project-' + project.id" (click)="cardClicked(project)">
-      <mat-card-content>
-        <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
-          [style.view-transition-name]="'image-' + project.id" />
-        <div class="h-[30px] w-fit pt-[10px]" [style.view-transition-name]="'name-' + project.id"
-          [innerHTML]="project.name">
-        </div>
-      </mat-card-content>
-    </mat-card>
-    } @empty {
-    @if (!store.isLoading()){
-    <span>There are no items.</span>
+  <div class="flex flex-col items-center pt-[18px]">
+    <div class="w-[60%] pb-8 flex flex-col items-center">
+      <h1 class="py-2 font-bold">Michael Yamashita's Portfolio Project</h1>
+      <div class="flex-col justify-start">
+        <button class="mb-1" mat-button href="https://github.com/mikeyamashita/portfolio-angular">
+          <span class="flex flex-row items-center"><img class="mr-3" height="24px" width="24px?"
+              src="/assets/icons/github-mark.png">Front
+            End Angular 18 Project
+            Source</span>
+        </button>
+        <div class="px-16">A basic crud app utilizing the latest features of angular 16/17/18, ngrx signals
+          state management, view
+          transitions api, zoneless, reactive forms, material design 3, and standalone components</div>
+
+        <button class="mb-1" mat-button href="https://github.com/mikeyamashita/portfolio-dotnetcore-api">
+          <span class="flex flex-row items-center"><img class="mr-3" height="24px" width="24px?"
+              src="/assets/icons/github-mark.png">Back
+            End .Net Core 8 WebApi Project
+            Source</span>
+        </button>
+        <div class="px-16">built on .Net webapi 8 with entity framework with a PostgresSql DB.<br> Deployment: Dev -
+          local
+          docker container on MacOS, Staging - docker container on Windows 11, Prod - Azure </div>
+      </div>
+    </div>
+    <div class="flex flex-row justify-center w-full">
+      <mat-form-field class="pt-[20px] w-full
+      2xs:pr-3 2xs:pl-3
+      xs:pr-5 xs:pl-5
+      sm:pr-24 sm:pl-24 
+      md:pr-36 md:pl-36 
+      lg:pr-96 lg:pl-96" appearance="outline">
+        <input #searchText matInput type="search" placeholder="Search" [(ngModel)]="search" (keydown.enter)="filter()"
+          (ngModelChange)="filter()">
+        <button mat-icon-button matSuffix class="mr-[4px]" (click)="filter()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    @if (store.isLoading()){
+    <div class="flex flex-row justify-center">
+      <mat-spinner class="opacity-40" diameter="25" strokeWidth="4"></mat-spinner>
+    </div>
     }
-    }
+    <div class="w-fit sm:grid-cols-3 sm: grid sm: gap-3
+            md:grid-cols-4 md: grid md: gap-3 
+            lg:grid-cols-4 lg: grid lg: gap-3">
+      @for (project of projects; track project.id) {
+      <mat-card class="transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150 h-[200px] 
+  2xs:w-[92vw] 
+  xs:w-[92vw] 
+  sm:w-[200px] 
+  md:w-[200px] 
+  lg:w-[200px]" [style.view-transition-name]="'project-' + project.id" (click)="cardClicked(project)">
+        <mat-card-content>
+          <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
+            [style.view-transition-name]="'image-' + project.id" />
+          <div class="h-[30px] w-fit pt-[10px]" [style.view-transition-name]="'name-' + project.id"
+            [innerHTML]="project.name">
+          </div>
+        </mat-card-content>
+      </mat-card>
+      } @empty {
+      @if (!store.isLoading()){
+      <span>There are no items.</span>
+      }
+      }
 
 
-    <div class="p-[5px]"></div>
+      <div class="p-[5px]"></div>
+    </div>
+
   </div>
 
 
