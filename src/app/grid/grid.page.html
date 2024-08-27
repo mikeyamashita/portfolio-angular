@@ -23,6 +23,8 @@
         ** Demo: feel free to login, browse, create, update, and delete **
         <br>
         ** work in progress, best viewed in Chrome/Edge desktop or Android Chrome **
+        <br>
+        contact: mikeyamashita&#64;protonmail.com
         <br><br>
         <button class="mb-1" mat-button href="https://github.com/mikeyamashita/portfolio-angular">
           <span class="flex flex-row items-center"><img class="mr-3" height="24px" width="24px?"
@@ -72,15 +74,14 @@
                       2xs:w-[92vw] 
                       xs:w-[92vw] 
                       sm:w-[200px] 
-                      md:w-[250px] 
+                      md:w-[200px] 
                       lg:w-[250px]" [style.view-transition-name]="'project-' + project.id"
         (click)="cardClicked(project)">
         <mat-card-content>
           <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
             [style.view-transition-name]="'image-' + project.id" />
-
-          <div class="h-[30px] w-fit h-[50px] pt-[10px]" [style.view-transition-name]="'name-' + project.id"
-            [innerHTML]="project.name">
+          <div class="py-[10px]"></div>
+          <div class="w-fit h-[50px]" [style.view-transition-name]="'name-' + project.id" [innerHTML]="project.name">
           </div>
         </mat-card-content>
       </mat-card>
