@@ -70,12 +70,13 @@
                 <div class="mb-2">Details</div>
                 <mat-form-field class="w-full">
                     <mat-label for="name">Name: </mat-label>
-                    <input class="h-[55px] w-[25%]" matInput class="text-base" id="name" type="text"
-                        formControlName="name" [style.view-transition-name]="'name-' + projectId">
+                    <textarea matInput rows="3" class="w-fit h-fit" id="name" type="text" formControlName="name"
+                        [style.view-transition-name]="'name-' + projectId"></textarea>
                 </mat-form-field>
-                <mat-form-field class="w-[100%]">
+                <mat-form-field class="w-full">
                     <mat-label for="description">Description: </mat-label>
-                    <textarea matInput id="description" type="text" rows=5 formControlName="description"
+                    <textarea matInput id="description" class="w-fit h-fit" type="text" rows=5
+                        formControlName="description"
                         [style.view-transition-name]="'description-' + projectId"></textarea>
                 </mat-form-field>
 

@@ -258,14 +258,16 @@ export class ProjectNewUpdateComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
 
     dialogRef.afterClosed().subscribe(confirm => {
-      if (confirm)
+      console.log(confirm)
+      if (confirm) {
         //delete associated links before deleting project
         if (this.linksArr().length > 0) {
           this.linksArr().forEach((link: any) => {
             this.linkStore.deleteLink(link.id);
           })
         }
-      this.store.deleteProject(Number(this.projectId))
+        this.store.deleteProject(Number(this.projectId))
+      }
       this.router.navigateByUrl('/grid/' + this.gridService.sorttype());
     });
   }
