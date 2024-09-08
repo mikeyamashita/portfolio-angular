@@ -73,6 +73,23 @@
                     <textarea matInput rows="3" class="w-fit h-fit" id="name" type="text" formControlName="name"
                         [style.view-transition-name]="'name-' + projectId"></textarea>
                 </mat-form-field>
+                <mat-form-field class="w-fit h-fit pb-3 pr-2">
+                    <mat-label for="name">Start Date: </mat-label>
+                    <input matInput class="" [matDatepicker]="startDate" formControlName="startDate"
+                        [style.view-transition-name]="'startDate-' + projectId">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+                    <mat-datepicker #startDate></mat-datepicker>
+                </mat-form-field>
+                <span [style.view-transition-name]="'to-' + projectId"> - </span>
+                <mat-form-field class="w-fit h-fit pb-3 pl-2">
+                    <mat-label for="name">End Date: </mat-label>
+                    <input matInput class="" [matDatepicker]="endDate" formControlName="endDate"
+                        [style.view-transition-name]="'endDate-' + projectId">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+                    <mat-datepicker #endDate></mat-datepicker>
+                </mat-form-field>
                 <mat-form-field class="w-full">
                     <mat-label for="description">Description: </mat-label>
                     <textarea matInput id="description" class="w-fit h-fit" type="text" rows=5

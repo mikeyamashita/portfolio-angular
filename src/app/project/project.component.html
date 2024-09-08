@@ -51,8 +51,17 @@
                         2xs:mt-8 mb-5" [style.view-transition-name]="'image-' + projectId" />
                     </a>
                 </div>
-                <div class="text-xl w-fit h-[95px]" [style.view-transition-name]="'name-' + projectId"
-                    [innerHTML]="projectService.project().name">
+                <div class="text-xl" [style.view-transition-name]="'name-' + projectId">
+                    {{ projectService.project().name }}
+                </div>
+                <div class="text-xl pt-3">
+                    <span [style.view-transition-name]="'startDate-' + projectId">{{
+                        getMonthYear(
+                        projectService.project().startDate) }}</span>
+                    <span class="p-1" [style.view-transition-name]="'to-' + projectId">-</span>
+                    <span [style.view-transition-name]="'endDate-' + projectId">{{
+                        getMonthYear(
+                        projectService.project().endDate) }}</span>
                 </div>
                 <div class="pt-[50px] text-lg" [style.view-transition-name]="'description-' + projectId"
                     [innerHTML]="projectService.project().description">

@@ -38,6 +38,8 @@ export class ProjectComponent {
 
   projectId: string = "-1";
   project: any;
+  new: any;
+  dateRange: string = ""
 
   constructor(
     private route: ActivatedRoute,
@@ -65,13 +67,20 @@ export class ProjectComponent {
         this.router.navigateByUrl('/project/' + this.projectId + '/edit');
       } else {
         this.linkStore.getLinks()
-
         if (this.store.projects().length == 0 || this.store.project())
           this.store.getProjectById(Number(this.projectId))
         else
           this.store.filterProjectById(Number(this.projectId))
       }
     })
+  }
+
+  // Methods
+  getMonthYear(date: string): string {
+    const thedate = new Date(date);
+    const month = thedate.toLocaleString('default', { month: 'long' });
+    const year = thedate.toLocaleString('default', { year: 'numeric' });
+    return month + ' ' + year
   }
 
   // Events  

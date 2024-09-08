@@ -19,7 +19,6 @@ export class ProjectService {
   }
 
   getProjectById(id: number): Observable<Object> {
-    console.log(id)
     return this.http.get<Project>(this.apiService.server() + '/api/Project/' + id, this.apiService.httpOptions)
       .pipe(
         tapResponse({

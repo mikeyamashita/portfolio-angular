@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { ProjectService } from '../../services/project.service';
 import { ProjectStore } from '../../store/project.store';
@@ -27,12 +29,13 @@ import { GridService } from '../../../grid/grid.service/grid.service';
 @Component({
   selector: 'app-project-new-update',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [MatButtonModule, MatIconModule,
     MatCardModule, MatDialogModule,
     RouterModule, MatChipsModule,
     MatProgressSpinnerModule, ReactiveFormsModule,
     ProjectFormComponent,
-    MatInputModule, MatFormFieldModule],
+    MatInputModule, MatFormFieldModule, MatDatepickerModule],
   templateUrl: './project-new-update.component.html',
   styleUrl: './project-new-update.component.scss'
 })
@@ -41,6 +44,8 @@ export class ProjectNewUpdateComponent {
     id: [0],
     name: [''],
     description: [''],
+    startDate: [new Date],
+    endDate: [new Date],
     image: [''],
     imageUrl: [''],
     links: [new Array<Link>],
@@ -112,6 +117,8 @@ export class ProjectNewUpdateComponent {
       this.projectForm.controls.image.setValue('');
       this.projectForm.controls.imageUrl.setValue('');
       this.projectForm.controls.name.setValue('');
+      this.projectForm.controls.startDate.setValue(new Date);
+      this.projectForm.controls.endDate.setValue(new Date);
       this.projectForm.controls.description.setValue('');
       this.projectForm.controls.links.setValue([]);
       this.projectForm.controls.tags.setValue([]);
@@ -121,6 +128,8 @@ export class ProjectNewUpdateComponent {
       this.projectForm.controls.image.setValue(this.store.project().image);
       this.projectForm.controls.imageUrl.setValue(this.store.project().imageUrl);
       this.projectForm.controls.name.setValue(this.store.project().name);
+      this.projectForm.controls.startDate.setValue(this.store.project().startDate);
+      this.projectForm.controls.endDate.setValue(this.store.project().endDate);
       this.projectForm.controls.description.setValue(this.store.project().description);
       this.store.project().links ? this.projectForm.controls.links.setValue(this.store.project().links) : this.projectForm.controls.links.setValue(new Array<Link>())
       this.linksArr.set(this.store.project().links);

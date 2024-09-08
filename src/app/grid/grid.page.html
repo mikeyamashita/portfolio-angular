@@ -84,7 +84,7 @@
           <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
             [style.view-transition-name]="'image-' + project.id" />
           <div class="py-[10px]"></div>
-          <div class="w-fit h-[50px]" [style.view-transition-name]="'name-' + project.id" [innerHTML]="project.name">
+          <div [style.view-transition-name]="'name-' + project.id" [innerHTML]="project.name">
           </div>
         </mat-card-content>
       </mat-card>
