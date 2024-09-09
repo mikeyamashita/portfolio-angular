@@ -77,10 +77,7 @@ export class ProjectComponent {
 
   // Methods
   getMonthYear(date: string): string {
-    const thedate = new Date(date);
-    const month = thedate.toLocaleString('default', { month: 'long' });
-    const year = thedate.toLocaleString('default', { year: 'numeric' });
-    return month + ' ' + year
+    return this.projectService.getMonthYear(date)
   }
 
   // Events  

@@ -92,6 +92,10 @@ export class GridPage implements OnInit {
     }
   }
 
+  getMonthYear(date: string): string {
+    return this.projectService.getMonthYear(date)
+  }
+
   // Events
   cardClicked(project: any) {
     this.projectService.project.set(project);

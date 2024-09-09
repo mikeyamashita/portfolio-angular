@@ -73,18 +73,28 @@
             md:grid-cols-4 md: grid md: gap-3 
             lg:grid-cols-4 lg: grid lg: gap-3">
       @for (project of projects; track project.id) {
-      <mat-card class="transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150 h-[200px] 
+      <mat-card class="transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150 h-[250px] 
                       2xs:w-[92vw] 
                       xs:w-[92vw] 
-                      sm:w-[200px] 
-                      md:w-[200px] 
+                      sm:w-[250px] 
+                      md:w-[250px] 
                       lg:w-[250px]" [style.view-transition-name]="'project-' + project.id"
         (click)="cardClicked(project)">
-        <mat-card-content>
+        <mat-card-content class="h-full">
           <img [src]="project.image" class="h-[50px] object-contain flex justify-start"
             [style.view-transition-name]="'image-' + project.id" />
           <div class="py-[10px]"></div>
-          <div [style.view-transition-name]="'name-' + project.id" [innerHTML]="project.name">
+          <div class="font-bold" [style.view-transition-name]="'name-' + project.id" [innerHTML]="project.name">
+          </div>
+          <div class="absolute bottom-0">
+            <span [style.view-transition-name]="'startDate-' + project.id">{{
+              getMonthYear(
+              project.startDate) }}</span>
+            <span class="p-1" [style.view-transition-name]="'to-' + project.id">-</span>
+            <span [style.view-transition-name]="'endDate-' + project.id">{{
+              getMonthYear(
+              project.endDate) }}</span>
+            <div class="py-[10px]"></div>
           </div>
         </mat-card-content>
       </mat-card>

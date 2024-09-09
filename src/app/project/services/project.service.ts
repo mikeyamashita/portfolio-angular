@@ -18,6 +18,14 @@ export class ProjectService {
     this.apiService.setEnvironment()
   }
 
+  // Methods
+  getMonthYear(date: string): string {
+    const thedate = new Date(date);
+    const month = thedate.toLocaleString('default', { month: 'long' });
+    const year = thedate.toLocaleString('default', { year: 'numeric' });
+    return month + ' ' + year
+  }
+
   getProjectById(id: number): Observable<Object> {
     return this.http.get<Project>(this.apiService.server() + '/api/Project/' + id, this.apiService.httpOptions)
       .pipe(
