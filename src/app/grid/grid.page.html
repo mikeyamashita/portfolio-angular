@@ -73,12 +73,12 @@
             md:grid-cols-4 md: grid md: gap-3 
             lg:grid-cols-4 lg: grid lg: gap-3">
       @for (project of projects; track project.id) {
-      <mat-card class="transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150 h-[250px] 
-                      2xs:w-[92vw] 
-                      xs:w-[92vw] 
-                      sm:w-[250px] 
-                      md:w-[250px] 
-                      lg:w-[250px]" [style.view-transition-name]="'project-' + project.id"
+      <mat-card class="transition ease-in-out delay-150 hover:scale-105 transition ease-in-out delay-150 
+                      2xs:w-[92vw] 2xs:h-[200px] 
+                      xs:w-[92vw] xs:h-[200px] 
+                      sm:w-[200px] sm:h-[200px] 
+                      md:w-[200px] md:h-[200px] 
+                      lg:w-[200px] lg:h-[200px] " [style.view-transition-name]="'project-' + project.id"
         (click)="cardClicked(project)">
         <mat-card-content class="h-full">
           <img [src]="project.image" class="h-[50px] object-contain flex justify-start"

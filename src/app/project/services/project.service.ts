@@ -20,10 +20,13 @@ export class ProjectService {
 
   // Methods
   getMonthYear(date: string): string {
-    const thedate = new Date(date);
-    const month = thedate.toLocaleString('default', { month: 'long' });
-    const year = thedate.toLocaleString('default', { year: 'numeric' });
-    return month + ' ' + year
+    if (date) {
+      const thedate = new Date(date);
+      const month = thedate.toLocaleString('default', { month: 'long' });
+      const year = thedate.toLocaleString('default', { year: 'numeric' });
+      return month.substring(0, 3) + ' ' + year
+    }
+    else return 'Present'
   }
 
   getProjectById(id: number): Observable<Object> {
