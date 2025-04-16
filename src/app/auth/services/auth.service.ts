@@ -20,12 +20,11 @@ export class AuthService {
     this.apiService.setEnvironment()
   }
 
-  login(user: any): Observable<Object> {
-
-    return this.http.post<User>(this.apiService.server() + '/login', user, this.httpOptions)
+  login<AuthResponse>(user: User): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(this.apiService.server() + '/login', user, this.httpOptions)
       .pipe(
-      // catchError(this.apiService.handleError)
-    );
+        catchError(this.apiService.handleError)
+      );
   }
 
 }
