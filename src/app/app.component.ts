@@ -14,7 +14,6 @@ import { ProjectStore } from './project/store/project.store';
 import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './auth/services/auth.service';
 import { GridService } from './grid/grid.service/grid.service';
-import { AuthResponse } from './auth/model/user';
 
 @Component({
   selector: 'app-root',
@@ -64,27 +63,22 @@ export class AppComponent {
   }
 
   lockunlock() {
-    if (this.authService.token) {  // Assuming token is a property
-      this.authService.token.set(null);
-      localStorage.clear();
+    if (this.authService.token()) {
+      this.authService.token.set(null)
+      localStorage.clear()
     } else {
       const dialogRef = this.dialog.open(AuthComponent);
-      dialogRef.afterClosed().subscribe((user) => {
+      dialogRef.afterClosed().subscribe(user => {
         console.log(`Dialog result:`, user);
 
         if (user) {
-          this.authService.login<AuthResponse>(user).subscribe((res: AuthResponse) => {
-            if (res && "accessToken" in res) {
-              localStorage.setItem("token", res.accessToken);
-              this.authService.token.set(res.accessToken);
-            } else {
-              console.error("Login response does not contain accessToken");
-            }
-          });
+          this.authService.login(user).subscribe((res: any) => {
+            localStorage.setItem('token', res["accessToken"])
+            this.authService.token.set(res["accessToken"])
+          })
         }
       });
     }
   }
-
 
 }
